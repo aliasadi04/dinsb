@@ -1,12 +1,15 @@
-import { Box, Divider, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { Box, Button, Divider, TextField, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
 import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
+import { createSimpleUserDocumentFromAuth, createUserDocumentFromAuth, PhoneNumberSignIn } from '../utils/firebase/firebase.utils';
+import { FirebaseError } from 'firebase/app';
 
 const bookedDates = ['May 7th 23'];
 const weekendCounter = (start: Moment, end: Moment): number => {
   let weekdayCounter = 0;
+
   while (start <= end) {
     if (start.format('ddd') === 'Sat' || start.format('ddd') === 'Sun' || start.format('ddd') === 'Fri') {
       weekdayCounter++; //add 1 to your counter if its not a weekend day
@@ -17,19 +20,58 @@ const weekendCounter = (start: Moment, end: Moment): number => {
 }
 
 
-const Lej = () => {
 
+
+const Lej = () => {
+  const [error, setError] = useState('')
   const [startDate, setStartDate] = React.useState<Moment | null>(null);
   const [endDate, setEndDate] = React.useState<Moment | null>(null);
+  const [inputPhoneNumber, setInputPhoneNumber] = useState('');
+  const [chosenDays, setChosenDays] = useState<string[]>([]);
+  const [daysDifference,setDaysDifference]=useState(0);
+  
 
-  const daysDifference = endDate?.diff(startDate, 'days');
+  useEffect(() => {
+    if (!startDate) return
+    if (!endDate) return
+    setDaysDifference(endDate.diff(startDate, 'days')+1);
+    let listToReturn: string[] = [];
+    let startingDate = startDate;
 
+    while (endDate.diff(startingDate) >= 0) {
+      listToReturn.push(startingDate.format('MMM Do YY'));
+      startingDate.add(1, 'days');
+    }
+
+    setChosenDays(listToReturn);
+  }, [endDate])
+
+
+
+  console.log(chosenDays);
   const weekendsBetween = startDate && endDate && weekendCounter(startDate, endDate);
 
 
 
+  const submitHandler = async () => {
+    setError('');
+    console.log(inputPhoneNumber);
+    setInputPhoneNumber('');
+    try {
+      const confirmationResult = await PhoneNumberSignIn(inputPhoneNumber);
+
+      const response = await confirmationResult.confirm(prompt('enter the code'));
+      createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
+
+    } catch (error: any) {
+      setError(error.message.substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")")).replace("-", " ").replace('auth', '').replace('/', '')
+      )
+    }
+
+  }
+
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 1000, }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 1000, pb: 100 }}>
       <Typography variant='h2' fontWeight={700} my={3}> Lej en Soundboks </Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
@@ -45,7 +87,7 @@ const Lej = () => {
         </Box>
 
         <Typography variant='h5' fontWeight={400} fontStyle='italic' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
-          {daysDifference && daysDifference < 100 ? daysDifference > 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference === 1 ? 'dag' : 'dage'}`) : 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
+          {daysDifference>-1 && daysDifference < 100 ? daysDifference >= 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference === 1 ? 'dag' : 'dage'}`) : 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
         </Typography>
 
         <Typography variant='h3' fontWeight={600} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 2 }}>
@@ -57,6 +99,8 @@ const Lej = () => {
         </Typography>
       </Box>
 
+      <TextField error={error.length > 1} id="standard-basic" label="Telefon nummer" value={inputPhoneNumber} helperText={error} onChange={(event) => setInputPhoneNumber(event.target.value)} />
+      <Button onClick={submitHandler} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Submit phone number</Button>
     </Box>
   )
 }

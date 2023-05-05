@@ -6,6 +6,10 @@ import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import FlexBreak from '../components/flexBreak.component';
 
 
+export const dagslejehverdagspris=499;
+export const dagslejeweekendpris=199;
+export const weekendslejepris=499;
+
 const Home = () => {
     return (
         <>
@@ -55,7 +59,7 @@ const Home = () => {
 
                 <FlexBreak m={10} />
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',px:10,  }}>
-                    <Card sx={{ boxShadow: 5,my:2, borderRadius: 10, width: 300, mx: 3,height: 550 }}>
+                    <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10, width: 300, mx: 3,height: 550 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
                             <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
@@ -69,31 +73,31 @@ const Home = () => {
                     </Card>
 
 
-                    <Card sx={{ boxShadow: 15,my:2, borderRadius: 10,height: 550, width: 300, mx: 3, bgcolor: '#EE7203', alignSelf: 'start', }}>
+                    <Card sx={{ boxShadow: 15,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3, bgcolor: '#EE7203', alignSelf: 'start', }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
-                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
-                            <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
+                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
+                            <Typography variant='h4' fontWeight={600} mb={1}>Weekendsleje</Typography>
                             <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en hverdagsaften</Typography>
 
                             {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
                                 <DoneOutlineIcon sx={{ mr: 1, }} />{cardDetail}</Typography>)}
 
 
-                            <Typography variant='h3' fontWeight={600} >99 KR.</Typography>
+                            <Typography variant='h3' fontWeight={600} >399 KR.</Typography>
                         </CardContent>
                     </Card>
 
 
-                    <Card sx={{ boxShadow: 5,my:2, borderRadius: 10,height: 550, width: 300, mx: 3 }}>
+                    <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
-                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
-                            <Typography variant='h4' fontWeight={600} mb={1}>Weekendslej</Typography>
+                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
+                            <Typography variant='h4' fontWeight={600} mb={1}>Dagslej</Typography>
                             <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en hverdagsaften</Typography>
 
                             {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
                                 <DoneOutlineIcon color='primary' sx={{ mr: 1 }} />{cardDetail}</Typography>)}
 
-                            <Typography variant='h3' fontWeight={600} >99 KR.</Typography>
+                            <Typography variant='h3' fontWeight={600} >299 KR.</Typography>
                         </CardContent>
                     </Card>
                 </Box>

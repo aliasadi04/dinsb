@@ -3,7 +3,7 @@ import React from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import MenuIcon from '@mui/icons-material/Menu';
 import SpeakerIcon from '@mui/icons-material/Speaker';
-import {HashLink} from 'react-router-hash-link';
+import { HashLink } from 'react-router-hash-link';
 
 
 const pages = ['Vores bokse', 'Priser', 'FAQ']
@@ -85,7 +85,7 @@ const Navbar = () => {
             component='a'
             href={''}
             onClick={handleCloseNavMenu}
-            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, textDecoration: 'none', color: 'primary' }}>Vores bokse</Typography>
+            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, textDecoration: 'none', color: 'common.black' }}>Vores bokse</Typography>
 
           <Typography key='Priser'
 
@@ -93,17 +93,17 @@ const Navbar = () => {
 
             to='/#priser'
             onClick={handleCloseNavMenu}
-            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, color: 'primary', textDecoration:'none'}}>
-           
-              Priser
-          
+            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, color: 'common.black', textDecoration: 'none' }}>
+
+            Priser
+
           </Typography>
 
           <Typography key='FAQ'
             component='a'
             href={'FAQ'}
             onClick={handleCloseNavMenu}
-            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, textDecoration: 'none', color: 'primary' }}>FAQ</Typography>
+            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, textDecoration: 'none', color: 'common.black' }}>FAQ</Typography>
 
 
 
@@ -148,24 +148,24 @@ const Navbar = () => {
                 borderRadius: 1,
               }}
             >
-              
-                <MenuItem component={'a'} key='vores Bokse' href='/' onClick={() => {
-                  handleCloseNavMenu();
-                }}>
-                  <Typography textAlign="center">vores Bokse</Typography>
-                </MenuItem>
 
-                <MenuItem component={HashLink} key='Priser' to='/#priser' onClick={() => {
-                  handleCloseNavMenu();
-                }}>
-                  <Typography textAlign="center">Priser</Typography>
-                </MenuItem>
-              
-                <MenuItem component={'a'} key='FAQ' href='/faq' onClick={() => {
-                  handleCloseNavMenu();
-                }}>
-                  <Typography textAlign="center">FAQ</Typography>
-                </MenuItem>
+              <MenuItem component={'a'} key='vores Bokse' href='/' onClick={() => {
+                handleCloseNavMenu();
+              }}>
+                <Typography textAlign="center">vores Bokse</Typography>
+              </MenuItem>
+
+              <MenuItem component={HashLink} key='Priser' to='/#priser' onClick={() => {
+                handleCloseNavMenu();
+              }}>
+                <Typography textAlign="center">Priser</Typography>
+              </MenuItem>
+
+              <MenuItem component={'a'} key='FAQ' href='/faq' onClick={() => {
+                handleCloseNavMenu();
+              }}>
+                <Typography textAlign="center">FAQ</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
