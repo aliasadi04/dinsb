@@ -7,6 +7,7 @@ import Home from './routes/homePage';
 import FAQPage from './routes/faqPage';
 import { ThemeProvider } from '@emotion/react';
 import { PaletteMode, createTheme, responsiveFontSizes, useMediaQuery } from '@mui/material';
+import LejPage from './routes/lejPage';
 
 // white
 //#FFF8F0
@@ -56,7 +57,7 @@ function App() {
 
 
 
-          <Route path="/lej" element={<div>lej <Outlet></Outlet> </div>} />
+          <Route path="/lej" element={<LejPage/>} />
           <Route path="/faq" element={<FAQPage />} />
         </Route>
 

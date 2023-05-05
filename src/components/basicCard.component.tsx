@@ -18,6 +18,7 @@ const BasicCard = ({ heading = 'Card Heading', body = dummyText, sx = {} }: Prop
             boxShadow: 4,
             ...sx,
             my:2,
+            mx:2,
             
             
         }}>

@@ -30,18 +30,22 @@ const Home = () => {
                     >Lej En Soundboks For Kun 99kr</Typography>
                     <Typography fontWeight={400} variant='h4' >Vi udlejer soundbokse til din næste fest i hele storkøbenhavn</Typography>
                 </Box>
+
                 <Box sx={{ mb: 20, }}>
                     <img alt='Soundboks gen 3' src='https://shoppia.dk/wp-content/uploads/2022/10/SOUNDBOKS-Gen.-3-Traadloes-hoejtaler-med-batteri-1.jpg' />
                 </Box>
 
+
+
                 <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ width: '100%', textAlign: 'center', my: 4, }}>Hvorfor vælge os</Typography>
-                <Box sx={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-around', width: '100%', px: '20%', alignItems: 'baseline' }}>
+                <Box sx={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', width: '100%', alignItems: 'baseline' }}>
 
                     <BasicCard heading='Kvalitet af udstyr' body='Vi garanterer, at vores soundbokse er af høj kvalitet og altid i god stand. Vi sørger for at teste og vedligeholde udstyret før og efter hver udlejning, så du kan være sikker på en problemfri oplevelse.' />
                     <BasicCard heading='Fleksibilitet i levering og afhentning' body='Vi tilbyder fleksible leverings- og afhentningsmuligheder for vores kunder, så du kan få din soundboks leveret til lige præcis det sted og tidspunkt, der passer dig bedst. Vi sørger også for at afhente udstyret igen, når du er færdig med at bruge det.' />
                     <BasicCard heading='Pris og tilgængelighed' body='Vi tilbyder konkurrencedygtige priser og har altid flere soundbokse på lager, så du kan være sikker på, at du altid kan få fat i den udstyr, du har brug for. Vi sørger også for at tilbyde attraktive pakkeløsninger til vores kunder, så du kan spare penge ved at leje flere produkter samtidigt.' />
 
                 </Box>
+
 
                 <Typography variant='h1' id='priser' fontWeight={600} sx={{
                     mt: 10,
@@ -50,8 +54,8 @@ const Home = () => {
                 }}>Priser</Typography>
 
                 <FlexBreak m={10} />
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', height: 750 }}>
-                    <Card sx={{ boxShadow: 5, borderRadius: 10, width: 300, mx: 3 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',px:10,  }}>
+                    <Card sx={{ boxShadow: 5,my:2, borderRadius: 10, width: 300, mx: 3,height: 550 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
                             <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
@@ -65,7 +69,7 @@ const Home = () => {
                     </Card>
 
 
-                    <Card sx={{ boxShadow: 15, borderRadius: 10, width: 300, mx: 3, bgcolor: '#EE7203', alignSelf: 'start' }}>
+                    <Card sx={{ boxShadow: 15,my:2, borderRadius: 10,height: 550, width: 300, mx: 3, bgcolor: '#EE7203', alignSelf: 'start', }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
                             <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
@@ -80,7 +84,7 @@ const Home = () => {
                     </Card>
 
 
-                    <Card sx={{ boxShadow: 5, borderRadius: 10, width: 300, mx: 3 }}>
+                    <Card sx={{ boxShadow: 5,my:2, borderRadius: 10,height: 550, width: 300, mx: 3 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
                             <Typography variant='h4' fontWeight={600} mb={1}>Weekendslej</Typography>

@@ -148,13 +148,24 @@ const Navbar = () => {
                 borderRadius: 1,
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => {
+              
+                <MenuItem component={'a'} key='vores Bokse' href='/' onClick={() => {
                   handleCloseNavMenu();
                 }}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">vores Bokse</Typography>
                 </MenuItem>
-              ))}
+
+                <MenuItem component={HashLink} key='Priser' to='/#priser' onClick={() => {
+                  handleCloseNavMenu();
+                }}>
+                  <Typography textAlign="center">Priser</Typography>
+                </MenuItem>
+              
+                <MenuItem component={'a'} key='FAQ' href='/faq' onClick={() => {
+                  handleCloseNavMenu();
+                }}>
+                  <Typography textAlign="center">FAQ</Typography>
+                </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

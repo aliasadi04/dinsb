@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 
 
 const root = ReactDOM.createRoot(
@@ -13,9 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      
+      <LocalizationProvider dateAdapter={AdapterMoment}>
+
         <App />
-      
+
+      </LocalizationProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
