@@ -28,13 +28,13 @@ const Lej = () => {
   const [endDate, setEndDate] = React.useState<Moment | null>(null);
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
   const [chosenDays, setChosenDays] = useState<string[]>([]);
-  const [daysDifference,setDaysDifference]=useState(0);
-  
+  const [daysDifference, setDaysDifference] = useState(0);
+
 
   useEffect(() => {
     if (!startDate) return
     if (!endDate) return
-    setDaysDifference(endDate.diff(startDate, 'days')+1);
+    setDaysDifference(endDate.diff(startDate, 'days') + 1);
     let listToReturn: string[] = [];
     let startingDate = startDate;
 
@@ -55,12 +55,15 @@ const Lej = () => {
 
   const submitHandler = async () => {
     setError('');
-    console.log(inputPhoneNumber);
+    console.log(daysDifference);
     setInputPhoneNumber('');
     try {
       const confirmationResult = await PhoneNumberSignIn(inputPhoneNumber);
 
-      const response = await confirmationResult.confirm(prompt('enter the code'));
+      const code = prompt('enter the code');
+
+      const response = await confirmationResult.confirm(code ? code : 'dsajlfk');
+
       createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
 
     } catch (error: any) {
@@ -87,7 +90,9 @@ const Lej = () => {
         </Box>
 
         <Typography variant='h5' fontWeight={400} fontStyle='italic' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
-          {daysDifference>-1 && daysDifference < 100 ? daysDifference >= 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference === 1 ? 'dag' : 'dage'}`) : 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
+
+          {daysDifference > 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference === 1 ? 'dag' : 'dage'}`) : daysDifference != 0 ? 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
+
         </Typography>
 
         <Typography variant='h3' fontWeight={600} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 2 }}>
