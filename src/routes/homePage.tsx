@@ -58,7 +58,7 @@ const Home = () => {
                 }}>Priser</Typography>
 
                 <FlexBreak m={10} />
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',px:10,  }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',  }}>
                     <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10, width: 300, mx: 3,height: 550 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>

@@ -6,14 +6,14 @@ import SpeakerIcon from '@mui/icons-material/Speaker';
 import { HashLink } from 'react-router-hash-link';
 
 
-const pages = ['Vores bokse', 'Priser', 'FAQ']
+
 
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const location = useLocation();
+
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -35,7 +35,7 @@ const Navbar = () => {
 
 
   return (
-    <Box sx={{ overflow: 'clip' }}>
+    <Box sx={{ display:'grid', gridTemplateColumns:'100%' }}>
 
       <AppBar position="static" sx={{
 
@@ -193,7 +193,7 @@ const Navbar = () => {
       }} >
 
 
-        <Typography noWrap fontSize={{ xs: 20, md: 60 }} fontWeight={900} sx={{}} >
+        <Typography noWrap fontSize={{ xs: 20,md:40, lg: 60 }} fontWeight={900} sx={{}} >
           Brug for fed lyd til din næste fest?
         </Typography>
 
@@ -207,50 +207,54 @@ const Navbar = () => {
 
       </Box>
 
-
+      
       <Box sx={{
         width: '100%',
 
         position: 'static',
         backgroundColor: 'black',
-        height: 600,
+        height:'auto',
         display: 'flex',
         boxShadow: 'none',
         flexDirection: 'row',
         alignItems: 'baseline',
-        pt: 20,
+
+        pt:15,
+        pb: 10,
+
         mb: 0,
         justifyContent: 'space-around',
-        px: 35,
+        px: '10%',
         boxSizing: 'border-box',
-
+        flexWrap:'wrap'
 
       }} >
-
-        <Typography color='common.white' fontWeight={700} variant='h4' sx={{ display: 'flex', flexDirection: 'column' }}>
-          Sider
+        
+        <Box color='common.white'  sx={{ display: 'flex', flexDirection: 'column', minWidth:300,my:2 }}>
+          <Typography fontWeight={700} variant='h4'>Sider</Typography>
+          
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Om os</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' href='lej' >Lej soundboks</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >FAQs</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Handelsbetingelser</Typography>
 
-        </Typography>
+        </Box>
 
-        <Typography color='common.white' fontWeight={700} variant='h4' sx={{ display: 'flex', flexDirection: 'column' }}>
-          Resourcer
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth:300,my:2 }}>
+        <Typography fontWeight={700} variant='h4'>Resourcer</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Affiliate Program</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Hjælp med Soundboks</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Partners</Typography>
 
-        </Typography>
+        </Box>
 
-        <Typography color='common.white' fontWeight={700} variant='h4' sx={{ display: 'flex', flexDirection: 'column' }}>
-          Kontakt
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth:300,my:2 }}>
+        <Typography fontWeight={700} variant='h4'>Kontakt</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >kontakt@dinsb.dk</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Skriv til os</Typography>
 
 
-        </Typography>
+        </Box>
 
       </Box>
     </Box >
