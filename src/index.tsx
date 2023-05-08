@@ -8,7 +8,7 @@ import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Provider } from 'react-redux';
-import { rootReducer } from './store/store';
+import { store } from './store/store';
 
 
 const root = ReactDOM.createRoot(
@@ -16,14 +16,14 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Provider  store={rootReducer}>
-    <BrowserRouter>
-      <LocalizationProvider dateAdapter={AdapterMoment}>
+    <Provider store={store}>
+      <BrowserRouter>
+        <LocalizationProvider dateAdapter={AdapterMoment}>
 
-        <App />
+          <App />
 
-      </LocalizationProvider>
-    </BrowserRouter>
+        </LocalizationProvider>
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
