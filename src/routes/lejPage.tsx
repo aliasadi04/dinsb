@@ -64,6 +64,7 @@ const Lej = () => {
 
       const response = await confirmationResult.confirm(code ? code : 'dsajlfk');
 
+      
       createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
 
     } catch (error: any) {

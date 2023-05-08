@@ -7,6 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createTheme, responsiveFontSizes } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { Provider } from 'react-redux';
+import { rootReducer } from './store/store';
 
 
 const root = ReactDOM.createRoot(
@@ -14,6 +16,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <Provider  store={rootReducer}>
     <BrowserRouter>
       <LocalizationProvider dateAdapter={AdapterMoment}>
 
@@ -21,6 +24,7 @@ root.render(
 
       </LocalizationProvider>
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

@@ -36,8 +36,6 @@ let theme = createTheme({
     fontFamily: 'Source Sans Pro'
   }
 
-
-
 });
 
 theme = responsiveFontSizes(theme);

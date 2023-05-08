@@ -152,7 +152,7 @@ export const createSimpleUserDocumentFromAuth = async (
 		
 		const {phoneNumber}=userAuth;
 		
-		const createdAt = new Date();
+		const createdAt = new Date().valueOf();
 
 		try {
 			await setDoc(userDocRef, {
