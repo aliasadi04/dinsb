@@ -37,7 +37,7 @@ const Lej = () => {
     if (!endDate) return
     const daysInterval = endDate.diff(startDate, 'days') + 1;
 
-    setDaysDifference(daysInterval);
+    setDaysDifference (daysInterval);
 
 
     const weekendsBetween = weekendCounter(startDate, endDate);
