@@ -29,14 +29,28 @@ const Lej = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
   const [chosenDays, setChosenDays] = useState<string[]>([]);
   const [daysDifference, setDaysDifference] = useState(0);
+  const [pris, setPris] = useState(0);
 
 
   useEffect(() => {
     if (!startDate) return
     if (!endDate) return
-    setDaysDifference(endDate.diff(startDate, 'days') + 1);
+    const daysInterval = endDate.diff(startDate, 'days') + 1;
+
+    setDaysDifference(daysInterval);
+
+
+    const weekendsBetween = weekendCounter(startDate, endDate);
+
+
+    const daysBetween = daysInterval - weekendsBetween;
+
+    setPris(daysBetween * 199 + weekendsBetween * 399)
+
     let listToReturn: string[] = [];
     let startingDate = startDate;
+
+
 
     while (endDate.diff(startingDate) >= 0) {
       listToReturn.push(startingDate.format('MMM Do YY'));
@@ -44,18 +58,18 @@ const Lej = () => {
     }
 
     setChosenDays(listToReturn);
-  }, [endDate])
+
+  }, [endDate, startDate])
 
 
 
   console.log(chosenDays);
-  const weekendsBetween = startDate && endDate && weekendCounter(startDate, endDate);
+
 
 
 
   const submitHandler = async () => {
     setError('');
-    console.log(daysDifference);
     setInputPhoneNumber('');
     try {
       const confirmationResult = await PhoneNumberSignIn(inputPhoneNumber);
@@ -85,22 +99,20 @@ const Lej = () => {
 
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between' }} >
           <Typography variant='h4' sx={{ mx: 2 }}>Fra</Typography>
-          <DatePicker displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='start dato' formatDensity='spacious' disablePast value={startDate} onChange={(value) => setStartDate(moment(value))} />
+          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='start dato' formatDensity='spacious' disablePast value={startDate} onChange={(value) => setStartDate(moment(value))} />
           <Typography variant='h4' sx={{ mx: 2 }}>Til</Typography>
-          <DatePicker displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='slut dato' formatDensity='spacious' disablePast value={endDate} onChange={(value) => setEndDate(moment(value))} />
+          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='slut dato' formatDensity='spacious' disablePast value={endDate} onChange={(value) => setEndDate(moment(value))} />
         </Box>
 
         <Typography variant='h5' fontWeight={400} fontStyle='italic' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
-
-          {daysDifference > 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference === 1 ? 'dag' : 'dage'}`) : daysDifference != 0 ? 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
-
+          {daysDifference ? daysDifference >= 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference > 1 ? 'dage' : 'dag'}`) : 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
         </Typography>
 
         <Typography variant='h3' fontWeight={600} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', my: 2 }}>
           Pris:
           <Divider />
 
-          {startDate && endDate && daysDifference && weekendsBetween && `${(daysDifference - weekendsBetween) * 99 + weekendsBetween * 299} kr. `}
+          {`${pris} kr. `}
 
         </Typography>
       </Box>
