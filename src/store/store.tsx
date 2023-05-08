@@ -15,10 +15,11 @@ export interface StoreReducerType {
 
 }
 
-export const rootReducer = combineReducers({
+export const rootReducer = combineReducers<StoreReducerType>({
 
 	user: userReducer,
 
 
 });
-export const store = configureStore({ reducer: rootReducer },);
+
+export const store = configureStore<StoreReducerType,any>({ reducer: {user:userReducer} },);

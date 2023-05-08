@@ -138,6 +138,20 @@ export const getCategoriesAndDocuments = async () => {
 	return categoryMap;
 };
 
+export const getUserByUid = async (uid) => {
+	const collectionRef = collection(db, "users");
+	const q = query(collectionRef);
+	const querySnapshot = await getDocs(q);
+
+	const foundUser = querySnapshot.docs.filter((user) => {
+		return(user.id===uid)});
+	
+	const moddedUser=foundUser[0].data();
+	
+	return moddedUser;
+};
+
+
 export const createSimpleUserDocumentFromAuth = async (
 	userAuth,
 	additionalInformation = {}

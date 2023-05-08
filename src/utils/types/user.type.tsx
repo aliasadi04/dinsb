@@ -1,6 +1,7 @@
 export default interface User{
-    bookings: string[],
-    phoneNumber:number,
-    createdAt:number,
+
+    bookings?: string[],
+    phoneNumber?:number,
+    createdAt?:number,
 
 }

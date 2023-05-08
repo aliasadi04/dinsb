@@ -1,10 +1,14 @@
-import { Box, Button, Divider, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
 import { createSimpleUserDocumentFromAuth, createUserDocumentFromAuth, PhoneNumberSignIn } from '../utils/firebase/firebase.utils';
 import { FirebaseError } from 'firebase/app';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from '../store/user/user.selector';
+import User from '../utils/types/user.type';
+import { signOut } from 'firebase/auth';
+import { signOutUser } from '../utils/firebase/firebase.utils';
 
 const bookedDates = ['May 7th 23'];
 const weekendCounter = (start: Moment, end: Moment): number => {
@@ -23,13 +27,35 @@ const weekendCounter = (start: Moment, end: Moment): number => {
 
 
 const Lej = () => {
-  const [error, setError] = useState('')
+  const [error, setError] = useState('');
+  const [phoneError, setPhoneError] = useState(false);
   const [startDate, setStartDate] = React.useState<Moment | null>(null);
   const [endDate, setEndDate] = React.useState<Moment | null>(null);
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
   const [chosenDays, setChosenDays] = useState<string[]>([]);
   const [daysDifference, setDaysDifference] = useState(0);
-  const [pris,   setPris] = useState(0);
+  const [pris, setPris] = useState(0);
+  const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
+
+  const currentUser: User = useSelector(selectCurrentUser);
+
+  const validPhoneNumber = inputPhoneNumber.length > 7 ? inputPhoneNumber.length < 12 ? inputPhoneNumber.length > 8 ? inputPhoneNumber.includes('+45') : (/^\d+$/.test(inputPhoneNumber)) : false : false;
+  console.log(validPhoneNumber);
+
+
+
+
+
+
+  const handleOpenPhoneDialog = () => {
+    setOpenPhoneDialog(true);
+  };
+
+  const handleClosePhoneDialog = () => {
+    setOpenPhoneDialog(false);
+  };
+
+
 
 
   useEffect(() => {
@@ -37,7 +63,7 @@ const Lej = () => {
     if (!endDate) return
     const daysInterval = endDate.diff(startDate, 'days') + 1;
 
-    setDaysDifference (daysInterval);
+    setDaysDifference(daysInterval);
 
 
     const weekendsBetween = weekendCounter(startDate, endDate);
@@ -63,9 +89,6 @@ const Lej = () => {
 
 
 
-  console.log(chosenDays);
-
-
 
 
   const submitHandler = async () => {
@@ -78,7 +101,7 @@ const Lej = () => {
 
       const response = await confirmationResult.confirm(code ? code : 'dsajlfk');
 
-      
+
       createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
 
     } catch (error: any) {
@@ -90,7 +113,7 @@ const Lej = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', minHeight: 1000, pb: 100 }}>
-      <Typography variant='h2' fontWeight={700} my={3}> Lej en Soundboks </Typography>
+      <Typography variant='h2' fontWeight={700} my={3}> {currentUser ? currentUser.phoneNumber : 'Lej en soundboks'} </Typography>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
 
@@ -117,9 +140,39 @@ const Lej = () => {
         </Typography>
       </Box>
 
-      <TextField error={error.length > 1} id="standard-basic" label="Telefon nummer" value={inputPhoneNumber} helperText={error} onChange={(event) => setInputPhoneNumber(event.target.value)} />
-      <Button onClick={submitHandler} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Submit phone number</Button>
+      <TextField type='number' error={phoneError}
+        autoComplete='off'
+        helperText={phoneError ? 'ugyldig telefon nummer' : ''} id="standard-basic" label="Telefon nummer" value={inputPhoneNumber} onChange={(event) => setInputPhoneNumber(event.target.value)} />
+      <Button onClick={handleOpenPhoneDialog} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Lej nu!</Button>
+      <Button onClick={() => signOutUser()} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Log out</Button>
+
+
+      <Dialog open={openPhoneDialog} onClose={handleClosePhoneDialog}>
+        <DialogTitle>Bekræft sms-kode</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Skriv koden modtaget på SMS for at gå videre med lej af soundboks.
+          </DialogContentText>
+          <TextField
+            autoFocus
+
+            margin="dense"
+            id="name"
+            label="SMS kode"
+            type="number"
+            fullWidth
+            variant="standard"
+            autoComplete='off'
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClosePhoneDialog}>Gå tilbage</Button>
+          <Button onClick={() => handleClosePhoneDialog()}>Bekræft</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
+
+
   )
 }
 
