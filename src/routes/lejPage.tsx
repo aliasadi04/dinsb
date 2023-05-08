@@ -29,7 +29,7 @@ const Lej = () => {
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
   const [chosenDays, setChosenDays] = useState<string[]>([]);
   const [daysDifference, setDaysDifference] = useState(0);
-  const [pris, setPris] = useState(0);
+  const [pris,   setPris] = useState(0);
 
 
   useEffect(() => {
