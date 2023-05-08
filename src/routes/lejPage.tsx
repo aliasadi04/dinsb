@@ -35,7 +35,7 @@ const Lej = () => {
   useEffect(() => {
     if (!startDate) return
     if (!endDate) return
-    const daysInterval=endDate.diff(startDate, 'days') + 1;
+    const daysInterval = endDate.diff(startDate, 'days') + 1;
 
     setDaysDifference(daysInterval);
 
@@ -45,7 +45,7 @@ const Lej = () => {
 
     const daysBetween = daysInterval - weekendsBetween;
 
-    setPris(daysBetween*199+weekendsBetween*399)
+    setPris(daysBetween * 199 + weekendsBetween * 399)
 
     let listToReturn: string[] = [];
     let startingDate = startDate;
@@ -70,7 +70,7 @@ const Lej = () => {
 
   const submitHandler = async () => {
     setError('');
-    console.log(inputPhoneNumber);
+
     setInputPhoneNumber('');
     try {
       const confirmationResult = await PhoneNumberSignIn(inputPhoneNumber);
@@ -97,9 +97,9 @@ const Lej = () => {
 
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between' }} >
           <Typography variant='h4' sx={{ mx: 2 }}>Fra</Typography>
-          <DatePicker displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='start dato' formatDensity='spacious' disablePast value={startDate} onChange={(value) => setStartDate(moment(value))} />
+          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='start dato' formatDensity='spacious' disablePast value={startDate} onChange={(value) => setStartDate(moment(value))} />
           <Typography variant='h4' sx={{ mx: 2 }}>Til</Typography>
-          <DatePicker displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='slut dato' formatDensity='spacious' disablePast value={endDate} onChange={(value) => setEndDate(moment(value))} />
+          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='slut dato' formatDensity='spacious' disablePast value={endDate} onChange={(value) => setEndDate(moment(value))} />
         </Box>
 
         <Typography variant='h5' fontWeight={400} fontStyle='italic' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
