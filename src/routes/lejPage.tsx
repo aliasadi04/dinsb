@@ -2,13 +2,16 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import React, { useEffect, useState } from 'react'
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
-import { createSimpleUserDocumentFromAuth, createUserDocumentFromAuth, PhoneNumberSignIn } from '../utils/firebase/firebase.utils';
+import { auth, createSimpleUserDocumentFromAuth, createUserDocumentFromAuth, formatErrorMessage, PhoneNumberSignIn } from '../utils/firebase/firebase.utils';
 import { FirebaseError } from 'firebase/app';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../store/user/user.selector';
 import User from '../utils/types/user.type';
-import { signInWithPhoneNumber, signOut } from 'firebase/auth';
+import { RecaptchaVerifier, signInWithPhoneNumber, signOut } from 'firebase/auth';
 import { signOutUser } from '../utils/firebase/firebase.utils';
+import validator from "validator";
+
+
 
 const bookedDates = ['May 7th 23'];
 const weekendCounter = (start: Moment, end: Moment): number => {
@@ -25,11 +28,11 @@ const weekendCounter = (start: Moment, end: Moment): number => {
 
 
 
-
 const Lej = () => {
   const [error, setError] = useState('');
   const [startDate, setStartDate] = React.useState<Moment | null>(null);
   const [endDate, setEndDate] = React.useState<Moment | null>(null);
+  const [dateInput, setDateInput] = useState<{ startDate: Moment | null, endDate: Moment | null }>({ startDate: null, endDate: null })
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
   const [chosenDays, setChosenDays] = useState<string[]>([]);
   const [daysDifference, setDaysDifference] = useState(0);
@@ -37,6 +40,7 @@ const Lej = () => {
   const [confirmationObject, setConfirmationObject] = useState<any>({});
   const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
   const [input, setInput] = useState('');
+  // const [verifier, setVerifier] = useState<RecaptchaVerifier>(null);
 
   const handleOpenPhoneDialog = () => {
     setOpenPhoneDialog(true);
@@ -48,6 +52,13 @@ const Lej = () => {
 
 
 
+
+
+  useEffect(() => {
+    window.recaptchaVerifier = new RecaptchaVerifier('phone-submit-button', {
+      'size': 'invisible',
+    }, auth);
+  }, [])
 
   useEffect(() => {
     if (!startDate) return
@@ -88,34 +99,31 @@ const Lej = () => {
     setInputPhoneNumber('');
 
 
-    PhoneNumberSignIn('+' + inputPhoneNumber)
-      .then((confirmationResult) => {
+    const confirmationResult = PhoneNumberSignIn(inputPhoneNumber, window.recaptchaVerifier);
+    console.log(confirmationResult);
 
-        const code = prompt('enter the code');
-        confirmationResult.confirm(code ? code : 'dsajlfk')
-          .then((response) => {
-            console.log(response);
-            createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
-              .then(res => console.log(res))
-              .catch((error) => console.log(error))
-          }).then((error) => {
-            console.log(error); alert('Forkerte kode')
-          })
-      }
+    // .then((confirmationResult) => {
 
-      ).catch((error) => {
-        console.log(error);
-        if (error.message) {
-          setError(error.message
-            .substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")"))
-            .replace("-", " ")
-            .replace("auth", "")
-            .replace("/", "")
-          )
-        } else {
-          console.log(error);
-        }
-      })
+    //   const code = prompt('enter the code');
+    //   confirmationResult.confirm(code ? code : 'dsajlfk')
+    //     .then((response) => {
+    //       console.log(response);
+    //       createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
+    //         .then(res => console.log(res))
+    //         .catch((error) => console.log(error))
+    //     }).then((error) => {
+    //       console.log(error); alert('Forkerte kode');
+    //     })
+    // }
+
+    // ).catch((error) => {
+    //   console.log(error);
+    //   if (error.message) {
+    //     setError(formatErrorMessage(error))
+    //   } else {
+    //     console.log(error);
+    //   }
+    // })
 
 
 
@@ -133,7 +141,7 @@ const Lej = () => {
   }
 
   return (
-    <Box ref={containerRef} sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start', minHeight: 1000, pb: 100, ml: 1, justifyContent: 'space-around', px: { s: 0, md: 25 } }}>
+    <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start', minHeight: 1000, pb: 100, ml: 1, justifyContent: 'space-around', px: { s: 0, md: 25 } }}>
 
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '40%', transition: 'right 2s', minWidth: '460px' }}>
@@ -213,3 +221,4 @@ const Lej = () => {
 }
 
 export default Lej
+

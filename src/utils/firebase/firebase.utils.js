@@ -11,7 +11,7 @@ import {
 	onAuthStateChanged,
 	signInWithPhoneNumber,
 } from "firebase/auth";
-import {getDownloadURL, getStorage,ref,uploadBytes} from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 import {
 	getFirestore,
@@ -31,8 +31,8 @@ const firebaseConfig = {
 	projectId: "dinsb-28e44",
 	storageBucket: "dinsb-28e44.appspot.com",
 	messagingSenderId: "284235692585",
-	appId: "1:284235692585:web:8d544982406e94d148fa38"
-  };
+	appId: "1:284235692585:web:8d544982406e94d148fa38",
+};
 
 const firebaseApp = initializeApp(firebaseConfig);
 
@@ -44,16 +44,14 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 
-
-
-
-export const PhoneNumberSignIn= (phoneNumber)=>{
-	
-	window.recaptchaVerifier = new RecaptchaVerifier('phone-submit-button', { 'size': 'invisible',}, auth);
- const appVerifier = window.recaptchaVerifier;
-	return signInWithPhoneNumber(auth,phoneNumber,appVerifier)
-	};
-
+export const PhoneNumberSignIn = async (phoneNumber, appVerifier) => {
+	return signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+		.then((res) => res)
+		.catch((error) => {
+			appVerifier.clear();
+			throw error;
+		});
+};
 
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
@@ -63,9 +61,7 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
-export const addSingleDocument= async(collectionKey,
-	object)=>{
-
+export const addSingleDocument = async (collectionKey, object) => {
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
 
@@ -73,13 +69,11 @@ export const addSingleDocument= async(collectionKey,
 	//set the batch (transaction)
 	batch.set(docRef, object);
 	await batch.commit();
-	}
-
+};
 
 export const addCollectionAndDocuments = async (
 	collectionKey,
-	objectsToAdd,
-	
+	objectsToAdd
 ) => {
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
@@ -100,7 +94,6 @@ export const getChats = async () => {
 
 	const chats = querySnapshot.docs.reduce((acc, docSnapshot) => {
 		acc.push(docSnapshot.data());
-		
 
 		return acc;
 	}, []);
@@ -121,7 +114,6 @@ export const getUsers = async () => {
 
 	return users;
 };
-
 
 export const getCategoriesAndDocuments = async () => {
 	const collectionRef = collection(db, "categories");
@@ -144,13 +136,13 @@ export const getUserByUid = async (uid) => {
 	const querySnapshot = await getDocs(q);
 
 	const foundUser = querySnapshot.docs.filter((user) => {
-		return(user.id===uid)});
-	
-	const moddedUser=foundUser[0].data();
-	
+		return user.id === uid;
+	});
+
+	const moddedUser = foundUser[0].data();
+
 	return moddedUser;
 };
-
 
 export const createSimpleUserDocumentFromAuth = async (
 	userAuth,
@@ -161,11 +153,10 @@ export const createSimpleUserDocumentFromAuth = async (
 	const userDocRef = doc(db, "users", userAuth.uid);
 
 	const userSnapshot = await getDoc(userDocRef);
-	
+
 	if (!userSnapshot.exists()) {
-		
-		const {phoneNumber}=userAuth;
-		
+		const { phoneNumber } = userAuth;
+
 		const createdAt = new Date().valueOf();
 
 		try {
@@ -225,33 +216,33 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 const q = query(collection(db, "chats"));
-const u=query(collection(db, "homeworks"));
-export const dataChangeListener=(callback)=>{
+const u = query(collection(db, "homeworks"));
+export const dataChangeListener = (callback) => {
 	onSnapshot(q, callback);
-
-}
-export const homeworkChangeListener=(callback)=>{
+};
+export const homeworkChangeListener = (callback) => {
 	onSnapshot(u, callback);
-
-}
+};
 export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
 	onAuthStateChanged(auth, callback);
 
+const storage = getStorage(firebaseApp);
 
-const storage=getStorage(firebaseApp);
-
-
-export const uploadImageToStorage=async (image,filePath)=>{
-	if (image==null){
+export const uploadImageToStorage = async (image, filePath) => {
+	if (image == null) {
 		console.log("no image");
 		return;
 	}
-	const imageRef=ref(storage,`images/${filePath}`);
-	await uploadBytes(imageRef,image);
+	const imageRef = ref(storage, `images/${filePath}`);
+	await uploadBytes(imageRef, image);
 	// ${image.name+v4()}
 	return getDownloadURL(imageRef);
-
-	
 };
+export const formatErrorMessage = (error) =>
+	error.message
+		.substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")"))
+		.replace("-", " ")
+		.replace("auth", "")
+		.replace("/", "");

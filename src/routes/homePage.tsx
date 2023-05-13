@@ -53,12 +53,12 @@ const Home = () => {
 
                 <Typography variant='h1' id='priser' fontWeight={600} sx={{
                     mt: 10,
-                    mb: 5,
+                    
 
                 }}>Priser</Typography>
 
                 <FlexBreak m={10} />
-                <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center',flexWrap:'wrap',  }}>
+                <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent:'center'  }}>
                     <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10, width: 300, mx: 3,height: 550 }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
