@@ -125,38 +125,13 @@ const Lej = () => {
     if (validator.isMobilePhone(phoneNumber, 'da-DK')) {
       setInputPhoneNumber('');
       const appVerifier = window.recaptchaVerifier;
-      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); }).catch((error) => { console.log(error); setError(formatErrorMessage(error)) })
+      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); }).catch((error) => { console.log(error); setError(formatErrorMessage(error)); setLoading(false); })
 
     } else {
 
       setError('Ugyldigt telefonnummer');
+      setLoading(false);
     }
-
-
-
-
-    // .then((confirmationResult) => {
-
-    //   const code = prompt('enter the code');
-    //   confirmationResult.confirm(code ? code : 'dsajlfk')
-    //     .then((response) => {
-    //       console.log(response);
-    //       createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
-    //         .then(res => console.log(res))
-    //         .catch((error) => console.log(error))
-    //     }).then((error) => {
-    //       console.log(error); alert('Forkerte kode');
-    //     })
-    // }
-
-    // ).catch((error) => {
-    //   console.log(error);
-    //   if (error.message) {
-    //     setError(formatErrorMessage(error))
-    //   } else {
-    //     console.log(error);
-    //   }
-    // })
 
   }
 
@@ -188,6 +163,7 @@ const Lej = () => {
               console.log(error);
 
               setError(formatErrorMessage(error));
+              setLoading(false);
             }
           } else {
             setError('De valgte datoer er ikke længere tilgængelige! ');
