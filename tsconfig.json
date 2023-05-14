@@ -7,10 +7,11 @@
       "esnext"
     ],
     "allowJs": true,
+    "strictNullChecks": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true,
+    "string": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -22,5 +23,5 @@
   },
   "include": [
     "src"
-  ]
+  ],
 }

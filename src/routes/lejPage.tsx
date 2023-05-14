@@ -2,19 +2,22 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, D
 import React, { useEffect, useState } from 'react'
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
-import { auth, createSimpleUserDocumentFromAuth, createUserDocumentFromAuth, formatErrorMessage, PhoneNumberSignIn } from '../utils/firebase/firebase.utils';
+import { auth, createSimpleUserDocumentFromAuth, createUserDocumentFromAuth, formatErrorMessage, getBookedDates, PhoneNumberSignIn, updateDocumentInfo } from '../utils/firebase/firebase.utils';
 import { FirebaseError } from 'firebase/app';
 import { useSelector } from 'react-redux';
-import { selectCurrentUser } from '../store/user/user.selector';
+import { selectAllUsers, selectCurrentUser } from '../store/user/user.selector';
 import User from '../utils/types/user.type';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, signOut } from 'firebase/auth';
 import { signOutUser } from '../utils/firebase/firebase.utils';
 import validator from "validator";
 import { LoadingButton } from '@mui/lab';
+import { HashLink } from 'react-router-hash-link';
+
+const arraysOverlap = (array1: string[], array2: string[]): boolean => {
+  return array1.some((item) => array2.includes(item));
+};
 
 
-
-const bookedDates = ['May 7th 23'];
 const weekendCounter = (start: Moment, end: Moment): number => {
   let weekdayCounter = 0;
 
@@ -44,7 +47,13 @@ const Lej = () => {
   const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
   const [input, setInput] = useState('');
   // const [verifier, setVerifier] = useState<RecaptchaVerifier>(null);
+  const currentUser = useSelector(selectCurrentUser);
+  const allUsers = useSelector(selectAllUsers);
 
+  const bookedDates = allUsers.reduce((acc, user) => {
+    acc.push(...user.bookings);
+    return (acc);
+  }, []);
   const handleOpenPhoneDialog = () => {
     setOpenPhoneDialog(true);
   };
@@ -116,12 +125,13 @@ const Lej = () => {
     if (validator.isMobilePhone(phoneNumber, 'da-DK')) {
       setInputPhoneNumber('');
       const appVerifier = window.recaptchaVerifier;
-      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); })
+      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); }).catch((error) => { console.log(error); setError(formatErrorMessage(error)) })
 
     } else {
 
       setError('Ugyldigt telefonnummer');
     }
+
 
 
 
@@ -148,25 +158,52 @@ const Lej = () => {
     //   }
     // })
 
-
-    setLoading(false);
-
   }
 
+
+  const testClick = () => {
+    console.log(allUsers);
+
+  }
   const dialogSubmitHandler = async () => {
     if (confirmationObject) {
       handleClosePhoneDialog();
       try {
         const response = await confirmationObject.confirm(input);
-        console.log(response);
-        createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
-          .then(res => console.log(res))
-          .catch((error) => console.log(error))
 
+        if (response.user.phoneNumber) {
+          createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
+            .then(res => console.log(res))
+            .catch((error) => console.log(error));
+        }
+        if (currentUser) {
+
+          const allBookedDates = await getBookedDates();
+          if (!arraysOverlap(allBookedDates, chosenDays)) {
+            try {
+              const setBookingResponse = await updateDocumentInfo('users', { bookings: (currentUser && currentUser.bookings ? [...currentUser.bookings, ...chosenDays] : [...chosenDays]) }, response.user.uid)
+              alert('Booking gennemført!');
+            }
+            catch (error) {
+              console.log(error);
+
+              setError(formatErrorMessage(error));
+            }
+          } else {
+            setError('De valgte datoer er ikke længere tilgængelige! ');
+            setLoading(false);
+          }
+
+
+
+
+        }
       } catch (error) {
         setError('Forkerte kode!')
         setLoading(false);
       }
+
+
 
 
     }
@@ -176,10 +213,10 @@ const Lej = () => {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start', minHeight: 1000, pb: 100, ml: 1, justifyContent: 'space-around', px: { s: 0, md: 25 } }}>
+    <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start', minHeight: 1000, pb: 100, ml: 1, justifyContent: (startDate && endDate ? 'space-around' : 'center'), px: { s: 0, md: 10 } }}>
 
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '40%', transition: 'right 2s', minWidth: '460px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '40%', transition: 'right 2s', minWidth: '400px' }}>
         <Typography variant='h2' fontWeight={700} my={3}>Lej en soundboks </Typography>
 
         <Typography variant='h3' fontWeight={600} sx={{ mb: 3 }} >Vælg dato</Typography>
@@ -203,25 +240,27 @@ const Lej = () => {
           {`    ${pris} kr. `}
 
         </Typography>
+
+        {pris > 0 && <HashLink to='/#priser'>Hvordan beregnes prisen?</HashLink>}
       </Box>
 
 
 
       {
-        // startDate && endDate &&
+        startDate && endDate &&
 
-        // <Fade in={startDate ? endDate ? true : false : false}>
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', }}>
-          <Typography variant='h4' >Skriv din telefonnummer for at fortsætte</Typography>
-          <TextField type='number' error={error.length > 0}
-            // autoComplete='off'
-            helperText={error} id="standard-basic" label="Telefon nummer" value={inputPhoneNumber} onChange={(event) => setInputPhoneNumber(event.target.value)} />
-          <LoadingButton loading={loading} onClick={submitHandler} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>{loading ? 'Loading...' : 'Lej nu!'}</LoadingButton>
-        </Box>
-        // </Fade>
+        <Fade in={startDate ? endDate ? true : false : false}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography variant='h4' mb={5}>Skriv din telefonnummer for at fortsætte</Typography>
+            <TextField type='number' error={error.length > 0}
+              // autoComplete='off'
+              helperText={error} id="standard-basic" label="Telefon nummer" value={inputPhoneNumber} onChange={(event) => setInputPhoneNumber(event.target.value)} />
+            <LoadingButton loading={loading} onClick={submitHandler} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>{loading ? 'Loading...' : 'Lej nu!'}</LoadingButton>
+          </Box>
+        </Fade>
       }
 
-      <Button onClick={() => signOutUser()} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Log out</Button>
+      {/* <Button onClick={testClick} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Test</Button> */}
 
 
       <Dialog open={openPhoneDialog} onClose={handleClosePhoneDialog}>

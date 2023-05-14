@@ -81,11 +81,11 @@ const Navbar = () => {
 
 
 
-          <Typography key='Vores bokse'
+          {/* <Typography key='Vores bokse'
             component='a'
             href={''}
             onClick={handleCloseNavMenu}
-            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, textDecoration: 'none', color: 'common.black' }}>Vores bokse</Typography>
+            sx={{ display: { xs: 'none', md: 'flex' }, fontWeight: 600, fontSize: 20, mx: 3, textDecoration: 'none', color: 'common.black' }}>Vores bokse</Typography> */}
 
           <Typography key='Priser'
 
@@ -149,11 +149,11 @@ const Navbar = () => {
               }}
             >
 
-              <MenuItem component={'a'} key='vores Bokse' href='/' onClick={() => {
+              {/* <MenuItem component={'a'} key='vores Bokse' href='/' onClick={() => {
                 handleCloseNavMenu();
               }}>
                 <Typography textAlign="center">vores Bokse</Typography>
-              </MenuItem>
+              </MenuItem> */}
 
               <MenuItem component={HashLink} key='Priser' to='/#priser' onClick={() => {
                 handleCloseNavMenu();

@@ -21,7 +21,6 @@ export const userReducer = (state: UserReducerType = INITIAL_STATE, action: Payl
 			return { ...state, currentUser: payload };
 
 		case USER_REDUCER_ACTION_TYPES.SET_USERS:
-			if (typeof payload === 'object') return state;
 			return { ...state, allUsers: [...payload] }
 		default:
 			return state;

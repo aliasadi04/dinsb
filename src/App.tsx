@@ -8,10 +8,10 @@ import FAQPage from './routes/faqPage';
 import { ThemeProvider } from '@emotion/react';
 import { PaletteMode, createTheme, responsiveFontSizes, useMediaQuery } from '@mui/material';
 import LejPage from './routes/lejPage';
-import { getUserByUid, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
+import { getUserByUid, getUsers, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
 import User from './utils/types/user.type';
 import { useDispatch } from 'react-redux';
-import { setCurrentUser } from './store/user/user.action';
+import { setAllUsers, setCurrentUser } from './store/user/user.action';
 
 // white
 //#FFF8F0
@@ -44,38 +44,46 @@ let theme = createTheme({
 
 theme = responsiveFontSizes(theme);
 
-interface FirebaseUser extends User{
-  uid:'string'
+interface FirebaseUser extends User {
+  uid: 'string'
 }
 
 function App() {
 
   const dispatch = useDispatch();
 
-    const setCurrentUserFromFirebase = async (uid: string) => {
-    
-      getUserByUid(uid).then(({ createdAt,phoneNumber,bookings }) => {
-          
-          dispatch(setCurrentUser({ createdAt,phoneNumber,bookings }))
-       
+  const setCurrentUserFromFirebase = async (uid: string) => {
 
-      })
+    getUserByUid(uid).then(({ createdAt, phoneNumber, bookings }) => {
+
+      dispatch(setCurrentUser({ createdAt, phoneNumber, bookings }));
+
+
+    })
   }
-
+  const setAllUsersFromFirebase = async ()=>{
+    const allUsersFromFirebase = await getUsers();
+    
+    
+    dispatch(setAllUsers(allUsersFromFirebase));
+  }
   useEffect(() => {
-    const unsubscribeFromUsersListener = onAuthStateChangedListener((user:FirebaseUser) => {
-     
-      
+    setAllUsersFromFirebase();
+  }, [])
+  useEffect(() => {
+    const unsubscribeFromUsersListener = onAuthStateChangedListener((user: FirebaseUser) => {
+
+
       if (user) {
         console.log('LOGIN');
         setCurrentUserFromFirebase(user.uid);
-        
 
 
-        
-      }else{
+
+
+      } else {
         console.log('LOGOU');
-      dispatch(setCurrentUser({}));
+        dispatch(setCurrentUser({}));
       }
     });
     return unsubscribeFromUsersListener;

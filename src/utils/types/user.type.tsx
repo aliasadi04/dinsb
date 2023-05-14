@@ -1,7 +1,7 @@
 export default interface User{
 
     bookings?: string[],
-    phoneNumber?:number,
+    phoneNumber?:string,
     createdAt?:number,
 
 }

@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { FirebaseError, initializeApp } from "firebase/app";
 import {
 	getAuth,
 	RecaptchaVerifier,
@@ -10,6 +10,10 @@ import {
 	signOut,
 	onAuthStateChanged,
 	signInWithPhoneNumber,
+	Auth,
+	ErrorFn,
+	UserCredential,
+	Unsubscribe,
 } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -23,7 +27,9 @@ import {
 	query,
 	getDocs,
 	onSnapshot,
+	QueryDocumentSnapshot,
 } from "firebase/firestore";
+import User from "../types/user.type";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBQ37oAQneDFd0f7D35oZHmsC3uAFoeNe0",
@@ -44,7 +50,7 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 
-export const PhoneNumberSignIn = async (phoneNumber, appVerifier) => {
+export const PhoneNumberSignIn = async (phoneNumber: string, appVerifier: RecaptchaVerifier) => {
 	return await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 };
 
@@ -56,7 +62,7 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
-export const addSingleDocument = async (collectionKey, object) => {
+export const addSingleDocument = async (collectionKey: string, object: { id: string }) => {
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
 
@@ -66,42 +72,43 @@ export const addSingleDocument = async (collectionKey, object) => {
 	await batch.commit();
 };
 
-export const addCollectionAndDocuments = async (
-	collectionKey,
-	objectsToAdd
-) => {
-	const collectionRef = collection(db, collectionKey);
-	const batch = writeBatch(db);
+// export const addCollectionAndDocuments = async (
+// 	collectionKey:string,
+// 	objectsToAdd:object[]
+// ) => {
+// 	const collectionRef = collection(db, collectionKey);
+// 	const batch = writeBatch(db);
 
-	//attach to batch (transaction)
-	objectsToAdd.forEach((object) => {
-		//set reference
-		const docRef = doc(collectionRef, object.id.toString());
-		//set the batch (transaction)
-		batch.set(docRef, object);
-	});
-	await batch.commit();
-};
-export const getChats = async () => {
-	const collectionRef = collection(db, "chats");
-	const q = query(collectionRef);
-	const querySnapshot = await getDocs(q);
+// 	//attach to batch (transaction)
+// 	objectsToAdd.forEach((object) => {
+// 		//set reference
 
-	const chats = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		acc.push(docSnapshot.data());
+// 		const docRef = doc(collectionRef, object.id.toString());
+// 		//set the batch (transaction)
+// 		batch.set(docRef, object);
+// 	});
+// 	await batch.commit();
+// };
+// export const getChats = async () => {
+// 	const collectionRef = collection(db, "chats");
+// 	const q = query(collectionRef);
+// 	const querySnapshot = await getDocs(q);
 
-		return acc;
-	}, []);
+// 	const chats = querySnapshot.docs.reduce((acc, docSnapshot) => {
+// 		acc.push(docSnapshot.data());
 
-	return chats;
-};
+// 		return acc;
+// 	}, []);
+
+// 	return chats;
+// };
 
 export const getUsers = async () => {
 	const collectionRef = collection(db, "users");
 	const q = query(collectionRef);
 	const querySnapshot = await getDocs(q);
 
-	const users = querySnapshot.docs.reduce((acc, docSnapshot) => {
+	const users: User[] = querySnapshot.docs.reduce((acc: User[], docSnapshot) => {
 		acc.push(docSnapshot.data());
 
 		return acc;
@@ -110,22 +117,35 @@ export const getUsers = async () => {
 	return users;
 };
 
-export const getCategoriesAndDocuments = async () => {
-	const collectionRef = collection(db, "categories");
+export const getBookedDates = async () => {
+	const collectionRef = collection(db, "users");
 	const q = query(collectionRef);
-
-	//wtf
 	const querySnapshot = await getDocs(q);
 
-	const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		const { title, items } = docSnapshot.data();
-		acc[title.toLowerCase()] = items;
-		return acc;
-	}, {});
-	return categoryMap;
-};
+	const dates: string[] = querySnapshot.docs.reduce((acc, docSnapshot) => {
+		acc.push(...docSnapshot.data().bookings);
 
-export const getUserByUid = async (uid) => {
+		return acc;
+	}, []);
+
+	return dates;
+};
+// export const getCategoriesAndDocuments = async () => {
+// 	const collectionRef = collection(db, "categories");
+// 	const q = query(collectionRef);
+
+// 	//wtf
+// 	const querySnapshot = await getDocs(q);
+
+// 	const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+// 		const { title, items } = docSnapshot.data();
+// 		acc[title.toLowerCase()] = items;
+// 		return acc;
+// 	}, {});
+// 	return categoryMap;
+// };
+
+export const getUserByUid = async (uid: string) => {
 	const collectionRef = collection(db, "users");
 	const q = query(collectionRef);
 	const querySnapshot = await getDocs(q);
@@ -139,11 +159,15 @@ export const getUserByUid = async (uid) => {
 	return moddedUser;
 };
 
+interface phoneUser extends User {
+
+	uid?: string,
+}
 export const createSimpleUserDocumentFromAuth = async (
-	userAuth,
+	userAuth: phoneUser,
 	additionalInformation = {}
 ) => {
-	if (!userAuth) return;
+	if (!userAuth.uid) return;
 
 	const userDocRef = doc(db, "users", userAuth.uid);
 
@@ -161,15 +185,20 @@ export const createSimpleUserDocumentFromAuth = async (
 
 				...additionalInformation,
 			});
-		} catch (error) {
+		} catch (error: any) {
 			console.log("error creating the user", error.message);
 		}
 	}
 
 	return userDocRef;
 };
+interface UserDocumentType extends Auth {
+	displayName: string,
+	email: string,
+	uid: string
+}
 export const createUserDocumentFromAuth = async (
-	userAuth,
+	userAuth: UserDocumentType,
 	additionalInformation = {}
 ) => {
 	if (!userAuth) return;
@@ -190,7 +219,7 @@ export const createUserDocumentFromAuth = async (
 
 				...additionalInformation,
 			});
-		} catch (error) {
+		} catch (error: any) {
 			console.log("error creating the user", error.message);
 		}
 	}
@@ -198,13 +227,13 @@ export const createUserDocumentFromAuth = async (
 	return userDocRef;
 };
 
-export const createAuthUserWithEmailAndPassword = async (email, password) => {
+export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
 	if (!email || !password) return;
 
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
 	if (!email || !password) return;
 
 	return await signInWithEmailAndPassword(auth, email, password);
@@ -212,32 +241,34 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 
 const q = query(collection(db, "chats"));
 const u = query(collection(db, "homeworks"));
-export const dataChangeListener = (callback) => {
+export const dataChangeListener = (callback: (arg: any) => void) => {
 	onSnapshot(q, callback);
 };
-export const homeworkChangeListener = (callback) => {
-	onSnapshot(u, callback);
-};
+
 export const signOutUser = async () => await signOut(auth);
 
-export const onAuthStateChangedListener = (callback) =>
+export const onAuthStateChangedListener = (callback: (arg: any) => void) =>
 	onAuthStateChanged(auth, callback);
 
 const storage = getStorage(firebaseApp);
 
-export const uploadImageToStorage = async (image, filePath) => {
-	if (image == null) {
-		console.log("no image");
-		return;
-	}
-	const imageRef = ref(storage, `images/${filePath}`);
-	await uploadBytes(imageRef, image);
-	// ${image.name+v4()}
-	return getDownloadURL(imageRef);
+
+
+
+export const updateDocumentInfo = async (collectionKey: string, object: object, documentName: string) => {
+	const collectionRef = collection(db, collectionKey);
+	const batch = writeBatch(db);
+
+	const docRef = doc(collectionRef, documentName);
+	//set the batch (transaction)
+	batch.update(docRef, object);
+	await batch.commit();
 };
-export const formatErrorMessage = (error) =>
-	error.message
-		.substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")"))
-		.replace("-", " ")
-		.replace("auth", "")
-		.replace("/", "");
+
+export const formatErrorMessage = (error: any) => error.message
+	.substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")"))
+	.replace("-", " ")
+	.replace("auth", "")
+	.replace("/", "");
+
+

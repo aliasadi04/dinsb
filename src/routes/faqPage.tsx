@@ -4,10 +4,7 @@ import FAQ from '../components/faq.component'
 
 
 const faq = [
-  {
-    question: "Hvad tilbyder dinsb?",
-    answer: "dinsb tilbyder Soundboks-udlejning til din næste begivenhed 🎉. Vi kan også levere og opsætte Soundboksene på dit sted, og hvis du har brug for det, kan vi endda sende en af vores venlige chauffører for at transportere udstyret for dig 🚚."
-  },
+  
   {
     question: "Hvordan kan jeg leje Soundboksene fra dinsb?",
     answer: "At leje Soundboksene fra dinsb er super enkelt 🙌. Du kan kontakte os via vores hjemmeside eller telefon, og vi vil tage os af resten. Vi vil arrangere levering og opsætning af Soundboksene, så du kan slappe af og fokusere på at forberede din begivenhed 🎵."
