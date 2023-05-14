@@ -45,12 +45,7 @@ googleProvider.setCustomParameters({
 export const auth = getAuth();
 
 export const PhoneNumberSignIn = async (phoneNumber, appVerifier) => {
-	return signInWithPhoneNumber(auth, phoneNumber, appVerifier)
-		.then((res) => res)
-		.catch((error) => {
-			appVerifier.clear();
-			throw error;
-		});
+	return await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
 };
 
 export const signInWithGooglePopup = () =>

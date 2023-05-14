@@ -53,6 +53,7 @@ function App() {
   const dispatch = useDispatch();
 
     const setCurrentUserFromFirebase = async (uid: string) => {
+    
       getUserByUid(uid).then(({ createdAt,phoneNumber,bookings }) => {
           
           dispatch(setCurrentUser({ createdAt,phoneNumber,bookings }))
@@ -63,15 +64,19 @@ function App() {
 
   useEffect(() => {
     const unsubscribeFromUsersListener = onAuthStateChangedListener((user:FirebaseUser) => {
+     
+      
       if (user) {
-        
+        console.log('LOGIN');
         setCurrentUserFromFirebase(user.uid);
         
 
 
         
-      }
+      }else{
+        console.log('LOGOU');
       dispatch(setCurrentUser({}));
+      }
     });
     return unsubscribeFromUsersListener;
   }, [])

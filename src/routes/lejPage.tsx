@@ -7,9 +7,10 @@ import { FirebaseError } from 'firebase/app';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../store/user/user.selector';
 import User from '../utils/types/user.type';
-import { RecaptchaVerifier, signInWithPhoneNumber, signOut } from 'firebase/auth';
+import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, signOut } from 'firebase/auth';
 import { signOutUser } from '../utils/firebase/firebase.utils';
 import validator from "validator";
+import { LoadingButton } from '@mui/lab';
 
 
 
@@ -29,15 +30,17 @@ const weekendCounter = (start: Moment, end: Moment): number => {
 
 
 const Lej = () => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [startDate, setStartDate] = React.useState<Moment | null>(null);
   const [endDate, setEndDate] = React.useState<Moment | null>(null);
+
   const [dateInput, setDateInput] = useState<{ startDate: Moment | null, endDate: Moment | null }>({ startDate: null, endDate: null })
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
   const [chosenDays, setChosenDays] = useState<string[]>([]);
   const [daysDifference, setDaysDifference] = useState(0);
   const [pris, setPris] = useState(0);
-  const [confirmationObject, setConfirmationObject] = useState<any>({});
+  const [confirmationObject, setConfirmationObject] = useState<ConfirmationResult | null>(null);
   const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
   const [input, setInput] = useState('');
   // const [verifier, setVerifier] = useState<RecaptchaVerifier>(null);
@@ -49,16 +52,6 @@ const Lej = () => {
   const handleClosePhoneDialog = () => {
     setOpenPhoneDialog(false);
   };
-
-
-
-
-
-  useEffect(() => {
-    window.recaptchaVerifier = new RecaptchaVerifier('phone-submit-button', {
-      'size': 'invisible',
-    }, auth);
-  }, [])
 
   useEffect(() => {
     if (!startDate) return
@@ -78,8 +71,6 @@ const Lej = () => {
     let listToReturn: string[] = [];
     let startingDate = startDate;
 
-
-
     while (endDate.diff(startingDate) >= 0) {
       listToReturn.push(startingDate.format('MMM Do YY'));
       startingDate.add(1, 'days');
@@ -90,17 +81,49 @@ const Lej = () => {
   }, [endDate, startDate])
 
 
-
+  function onCaptchVerify() {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response: any) => {
+            submitHandler();
+          },
+          "expired-callback": () => { },
+        },
+        auth
+      );
+    }
+  }
 
 
   const submitHandler = async () => {
     setError('');
+    onCaptchVerify();
+    setLoading(true);
 
-    setInputPhoneNumber('');
+    var phoneNumber: string = inputPhoneNumber;
 
 
-    const confirmationResult = PhoneNumberSignIn(inputPhoneNumber, window.recaptchaVerifier);
-    console.log(confirmationResult);
+    if (inputPhoneNumber.length > 8) {
+      phoneNumber = '+' + inputPhoneNumber;
+    } else {
+      phoneNumber = '+45' + inputPhoneNumber;
+    }
+
+
+    if (validator.isMobilePhone(phoneNumber, 'da-DK')) {
+      setInputPhoneNumber('');
+      const appVerifier = window.recaptchaVerifier;
+      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); })
+
+    } else {
+
+      setError('Ugyldigt telefonnummer');
+    }
+
+
 
     // .then((confirmationResult) => {
 
@@ -126,15 +149,27 @@ const Lej = () => {
     // })
 
 
-
+    setLoading(false);
 
   }
 
   const dialogSubmitHandler = async () => {
+    if (confirmationObject) {
+      handleClosePhoneDialog();
+      try {
+        const response = await confirmationObject.confirm(input);
+        console.log(response);
+        createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
+          .then(res => console.log(res))
+          .catch((error) => console.log(error))
 
-    handleClosePhoneDialog();
-    const response = await confirmationObject.confirm(input)
-    console.log(response);
+      } catch (error) {
+        setError('Forkerte kode!')
+        setLoading(false);
+      }
+
+
+    }
     setInput('');
 
     // createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
@@ -181,7 +216,7 @@ const Lej = () => {
           <TextField type='number' error={error.length > 0}
             // autoComplete='off'
             helperText={error} id="standard-basic" label="Telefon nummer" value={inputPhoneNumber} onChange={(event) => setInputPhoneNumber(event.target.value)} />
-          <Button onClick={submitHandler} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Lej nu!</Button>
+          <LoadingButton loading={loading} onClick={submitHandler} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>{loading ? 'Loading...' : 'Lej nu!'}</LoadingButton>
         </Box>
         // </Fade>
       }
@@ -214,6 +249,7 @@ const Lej = () => {
           <Button onClick={dialogSubmitHandler}>Bekræft</Button>
         </DialogActions>
       </Dialog>
+      <div id="recaptcha-container"></div>
     </Box>
 
 
