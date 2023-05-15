@@ -75,15 +75,15 @@ const Home = () => {
 
                     <Card sx={{ boxShadow: 15,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3, bgcolor: '#EE7203', alignSelf: 'start', }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
-                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
-                            <Typography variant='h4' fontWeight={600} mb={1}>Weekendsleje</Typography>
-                            <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en hverdagsaften</Typography>
+                            <Typography fontSize={19} color='common.white' fontWeight={600}>Fredag - Søndag</Typography>
+                            <Typography variant='h4' fontWeight={600} color='common.white' mb={1}>Weekendsleje</Typography>
+                            <Typography fontSize={17} color='common.white' mb={1} fontWeight={600}>Lej en soundboks en hverdagsaften</Typography>
 
-                            {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
+                            {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' color='common.white' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
                                 <DoneOutlineIcon sx={{ mr: 1, }} />{cardDetail}</Typography>)}
 
 
-                            <Typography variant='h3' fontWeight={600} >399 KR.</Typography>
+                            <Typography variant='h3' color='common.white' fontWeight={600} >399 KR.</Typography>
                         </CardContent>
                     </Card>
 

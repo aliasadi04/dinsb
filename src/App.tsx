@@ -26,7 +26,8 @@ import { setAllUsers, setCurrentUser } from './store/user/user.action';
 let theme = createTheme({
   palette: {
     common: {
-      black: '#131200'
+      black: '#131200',
+      white:'#FFF8F0',
     },
     primary: {
       main: '#EE7203'
