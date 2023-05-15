@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
+import ScrollToTop from './utils/hooks/scrollToTop';
 
 
 const root = ReactDOM.createRoot(
@@ -18,11 +19,13 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+      <ScrollToTop/>
         <LocalizationProvider dateAdapter={AdapterMoment}>
 
           <App />
 
         </LocalizationProvider>
+        
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
