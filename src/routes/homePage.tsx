@@ -48,7 +48,7 @@ const Home = () => {
 
 
 
-                <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ width: '100%', textAlign: 'center', my: 4, }}>Hvorfor vælge os</Typography>
+                <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ width: '100%', textAlign: 'center', alignItems:'center',justifyContent:'center' }}>Hvorfor vælge os</Typography>
                 <Box sx={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', width: '100%', alignItems: 'baseline' }}>
 
                     <BasicCard heading='Nem booking' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />

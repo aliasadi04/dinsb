@@ -8,10 +8,7 @@ const FAQ = ({ q, a }: { q: string, a: string }) => {
 
     const handleChange = () => {
         setOpen((open) => !open)
-        console.log(
-            'h12'
-        );
-
+       
     }
 
 
@@ -27,7 +24,7 @@ const FAQ = ({ q, a }: { q: string, a: string }) => {
 
             }, display: 'flex', flexDirection: 'column', alignItems: 'center', py: 2
         }}>
-            <Collapse in={open} collapsedSize={40} sx={{ width: '100%' }} >
+            <Collapse in={open} collapsedSize={40} sx={{ width: '100%' }} easing='easing-in-out' >
 
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
                     <Typography

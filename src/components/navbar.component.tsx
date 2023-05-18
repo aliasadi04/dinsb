@@ -35,7 +35,7 @@ const Navbar = () => {
 
 
   return (
-    <Box sx={{ display:'grid', gridTemplateColumns:'100%' }}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: '100%' }}>
 
       <AppBar position="static" sx={{
 
@@ -114,7 +114,7 @@ const Navbar = () => {
           <Button variant='outlined'
             onClick={() => navigate("lej")}
             sx={{ minWidth: { xs: 100, md: 200 }, borderWidth: 2, borderRadius: 2.5, }}>
-            <Typography noWrap fontSize={{ xs: 12, md: 18 }} fontWeight={600}>
+            <Typography noWrap fontSize={{ xs: 12, md: 18 }} fontWeight={600} >
               Lej en soundboks
             </Typography>
           </Button>
@@ -193,7 +193,7 @@ const Navbar = () => {
       }} >
 
 
-        <Typography noWrap fontSize={{ xs: 20,md:40, lg: 60 }} fontWeight={900} sx={{}} >
+        <Typography noWrap fontSize={{ xs: 20, md: 40, lg: 60 }} fontWeight={900} sx={{}} >
           Brug for fed lyd til din næste fest?
         </Typography>
 
@@ -207,51 +207,51 @@ const Navbar = () => {
 
       </Box>
 
-      
+
       <Box sx={{
         width: '100%',
 
         position: 'static',
         backgroundColor: 'black',
-        height:'auto',
+        height: 'auto',
         display: 'flex',
         boxShadow: 'none',
         flexDirection: 'row',
         alignItems: 'baseline',
 
-        pt:15,
+        pt: 15,
         pb: 10,
 
         mb: 0,
         justifyContent: 'space-around',
         px: '10%',
         boxSizing: 'border-box',
-        flexWrap:'wrap'
+        flexWrap: 'wrap'
 
       }} >
-        
-        <Box color='common.white'  sx={{ display: 'flex', flexDirection: 'column', minWidth:300,my:2 }}>
+
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
           <Typography fontWeight={700} variant='h4'>Sider</Typography>
-          
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Om os</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' href='lej' >Lej soundboks</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >FAQs</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Handelsbetingelser</Typography>
+
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5,textDecoration:'none',color:'white'  }} variant='h6' component='a' >Om os</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' href='lej'  >Lej soundboks</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' href='faq'>FAQs</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5,textDecoration:'none',color:'white'  }} variant='h6' component='a' >Handelsbetingelser</Typography>
 
         </Box>
 
-        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth:300,my:2 }}>
-        <Typography fontWeight={700} variant='h4'>Resourcer</Typography>
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
+          <Typography fontWeight={700} variant='h4'>Resourcer</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Affiliate Program</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Hjælp med Soundboks</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Partners</Typography>
 
         </Box>
 
-        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth:300,my:2 }}>
-        <Typography fontWeight={700} variant='h4'>Kontakt</Typography>
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
+          <Typography fontWeight={700} variant='h4'>Kontakt</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >kontakt@dinsb.dk</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >Skriv til os</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >+45 28 59 80 05</Typography>
 
 
         </Box>
