@@ -194,7 +194,7 @@ const Lej = () => {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '40%', transition: 'right 2s', minWidth: '400px' }}>
         <Typography variant='h2' fontWeight={700} my={3}>Lej en soundboks </Typography>
-
+        <Typography variant='h4' fontWeight={400} fontStyle='italic' my={3}>Skal afhentes ved Triumvej 62B, Bagsværd tidligst kl. 9 på startdagen </Typography>
         <Typography variant='h3' fontWeight={600} sx={{ mb: 3 }} >Vælg dato</Typography>
 
 
