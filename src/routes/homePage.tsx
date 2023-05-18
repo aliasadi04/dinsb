@@ -9,7 +9,14 @@ import FlexBreak from '../components/flexBreak.component';
 export const dagslejehverdagspris=499;
 export const dagslejeweekendpris=199;
 export const weekendslejepris=499;
-
+const slideUpStyle={
+    top:0,
+    position:'relative',
+    transition:'top ease 0.5s',
+    ":hover":{
+        top:'-30px',
+    }
+}
 const Home = () => {
     return (
         <>
@@ -44,7 +51,7 @@ const Home = () => {
                 <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ width: '100%', textAlign: 'center', my: 4, }}>Hvorfor vælge os</Typography>
                 <Box sx={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'center', width: '100%', alignItems: 'baseline' }}>
 
-                    <BasicCard heading='Kvalitet af udstyr' body='Vi garanterer, at vores soundbokse er af høj kvalitet og altid i god stand. Vi sørger for at teste og vedligeholde udstyret før og efter hver udlejning, så du kan være sikker på en problemfri oplevelse.' />
+                    <BasicCard heading='Nem booking' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />
                     <BasicCard heading='Fleksibilitet i levering og afhentning' body='Vi tilbyder fleksible leverings- og afhentningsmuligheder for vores kunder, så du kan få din soundboks leveret til lige præcis det sted og tidspunkt, der passer dig bedst. Vi sørger også for at afhente udstyret igen, når du er færdig med at bruge det.' />
                     <BasicCard heading='Pris og tilgængelighed' body='Vi tilbyder konkurrencedygtige priser og har altid flere soundbokse på lager, så du kan være sikker på, at du altid kan få fat i den udstyr, du har brug for. Vi sørger også for at tilbyde attraktive pakkeløsninger til vores kunder, så du kan spare penge ved at leje flere produkter samtidigt.' />
 
@@ -57,9 +64,9 @@ const Home = () => {
 
                 }}>Priser</Typography>
 
-                <FlexBreak m={10} />
-                <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent:'center'  }}>
-                    <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10, width: 300, mx: 3,height: 550 }}>
+                <FlexBreak m={5} />
+                <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent:'center' , }}>
+                    <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10, width: 300, mx: 3,height: 550,...slideUpStyle }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
                             <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
@@ -73,7 +80,7 @@ const Home = () => {
                     </Card>
 
 
-                    <Card sx={{ boxShadow: 15,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3, bgcolor: '#EE7203', alignSelf: 'start', }}>
+                    <Card sx={{ boxShadow: 15,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3, bgcolor: '#EE7203',...slideUpStyle }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='common.white' fontWeight={600}>Fredag - Søndag</Typography>
                             <Typography variant='h4' fontWeight={600} color='common.white' mb={1}>Weekendsleje</Typography>
@@ -88,7 +95,7 @@ const Home = () => {
                     </Card>
 
 
-                    <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3 }}>
+                    <Card sx={{ boxShadow: 5,mb:5, borderRadius: 10,height: 550, width: 300, mx: 3,...slideUpStyle }}>
                         <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                             <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
                             <Typography variant='h4' fontWeight={600} mb={1}>Dagslej</Typography>

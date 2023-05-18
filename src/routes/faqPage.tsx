@@ -7,15 +7,17 @@ const faq = [
   
   {
     question: "Hvordan kan jeg leje Soundboksene fra dinsb?",
-    answer: "At leje Soundboksene fra dinsb er super enkelt 🙌. Du kan kontakte os via vores hjemmeside eller telefon, og vi vil tage os af resten. Vi vil arrangere levering og opsætning af Soundboksene, så du kan slappe af og fokusere på at forberede din begivenhed 🎵."
+    answer: `For at leje Soundboksene fra DinSoundboks, kan du nemt bruge vores online bookingsystem. Gå til vores hjemmeside, hvor du kan reservere dine ønskede datoer og tider med blot nogle få klik. Når din booking er bekræftet, kan du selv hente Soundboksen fra vores placering på Triumfvej 62B i Bagsværd.
+    
+    Hvis du ønsker levering til døren, bedes du kontakte os via e-mail eller telefon. Vi vil glæde os til at arrangere levering og sørge for, at Soundboksen når frem til din festlokation på det ønskede tidspunkt. Vores dedikerede team er altid klar til at hjælpe dig med at skabe den bedste lydoplevelse til din fest.`
   },
   {
-    question: "Hvad er prisen for at leje Soundboksene?",
-    answer: "Prisen for at leje Soundboksene varierer afhængigt af flere faktorer, såsom størrelsen på Soundboksene, lejeperioden og om du har brug for en af vores chauffører til at køre Soundboksene til og fra din begivenhed 🤔. Men fortvivl ikke, vores priser er rimelige og konkurrencedygtige 💸. Kontakt os for at få en pris, der passer til dine behov 💬."
+    question: "Tilbyder I levering af Soundboksene til døren, og hvad er prisen?",
+    answer: "Ja, vi tilbyder levering af Soundboksene i Københavns-området for at gøre det endnu mere bekvemt for dig. Prisen for levering starter fra 150 kr., men da den kan variere afhængigt af afstanden og andre faktorer, beder vi dig kontakte os for at få en præcis pris på levering. På den måde kan vi sikre, at du får den mest præcise og konkurrencedygtige pris for levering til din specifikke lokation."
   },
   {
-    question: "Hvordan betaler jeg for Soundboksleje?",
-    answer: "Vi ønsker at gøre det så let som muligt for dig at betale for Soundboksleje 🤗. Du kan betale via bankoverførsel eller kontant ved levering af Soundboksene 🏦💰. Hvis du har spørgsmål eller bekymringer om betaling, er du velkommen til at kontakte os, så hjælper vi dig gerne 💬."
+    question: "Hvordan fungerer betalingen ved leje af Soundboksene hos DinSoundboks?",
+    answer: "Hos DinSoundboks er det enkelt og bekvemt at betale for din leje. Vi opererer uden et depositumssystem, hvilket betyder, at du ikke behøver at betale noget depositum for at leje vores Soundbokse. I stedet betaler du det fulde beløb ved afhentning af Soundboksen.Vi accepterer kun MobilePay."
   },
   {
     question: "Kan jeg afbestille min Soundboksleje?",
