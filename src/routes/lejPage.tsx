@@ -90,9 +90,11 @@ const Lej = () => {
   }, [endDate, startDate])
 
 
-  function onCaptchVerify() {
+  const onCaptchaVerify=()=>{
+   
+    
     if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
+      return(new RecaptchaVerifier(
         "recaptcha-container",
         {
           size: "invisible",
@@ -102,14 +104,17 @@ const Lej = () => {
           "expired-callback": () => { },
         },
         auth
-      );
+      ))
+    }else{
+      return(window.recaptchaVerifier);
     }
   }
 
 
   const submitHandler = async () => {
     setError('');
-    onCaptchVerify();
+
+    const appVerifier=onCaptchaVerify();
     setLoading(true);
 
     var phoneNumber: string = inputPhoneNumber;
@@ -124,8 +129,8 @@ const Lej = () => {
 
     if (validator.isMobilePhone(phoneNumber, 'da-DK')) {
       setInputPhoneNumber('');
-      const appVerifier = window.recaptchaVerifier;
-      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); }).catch((error) => { console.log(error); setError(formatErrorMessage(error)); setLoading(false); })
+      
+      PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); }).catch((error) => { setError(formatErrorMessage(error)); setLoading(false); })
 
     } else {
 
@@ -135,24 +140,24 @@ const Lej = () => {
 
   }
 
-
-  const testClick = () => {
-    console.log(allUsers);
-
-  }
   const dialogSubmitHandler = async () => {
+    setError('');
     if (confirmationObject) {
       handleClosePhoneDialog();
       try {
+        
+        
         const response = await confirmationObject.confirm(input);
 
-        if (response.user.phoneNumber) {
-          createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
-            .then(res => console.log(res))
-            .catch((error) => console.log(error));
-        }
+        // if (response.user.phoneNumber) {
+        //   createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
+        //     .then(res => console.log(res))
+        //     .catch((error) => console.log(error));
+        // }
         if (currentUser) {
-
+          console.log('User:');
+          console.log(currentUser);
+          
           const allBookedDates = await getBookedDates();
           if (!arraysOverlap(allBookedDates, chosenDays)) {
             try {

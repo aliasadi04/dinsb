@@ -5,10 +5,11 @@ import BasicCard from '../components/basicCard.component'
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import FlexBreak from '../components/flexBreak.component';
 
-
+import soundbImage from '../assets/soundboks.png';
 export const dagslejehverdagspris = 499;
 export const dagslejeweekendpris = 199;
 export const weekendslejepris = 499;
+
 const slideUpStyle = {
     top: 0,
     position: 'relative',
@@ -42,8 +43,15 @@ const Home = () => {
                     <Typography fontWeight={400} variant='h4' >Vi udlejer soundbokse til din næste fest i hele storkøbenhavn</Typography>
                 </Box>
 
-                <Box sx={{ mb: 20, }}>
-                    <img alt='Soundboks gen 3' src='https://shoppia.dk/wp-content/uploads/2022/10/SOUNDBOKS-Gen.-3-Traadloes-hoejtaler-med-batteri-1.jpg' />
+                <Box sx={{
+                    mb: 20, transition: 'scale ease 0.5s',
+                    paddingLeft:10,
+                    ":hover": {
+                        scale: '120%',
+                    }
+                }}>
+                
+                    <img alt='Soundboks gen 3' src={soundbImage} />
                 </Box>
 
 

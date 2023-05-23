@@ -189,8 +189,9 @@ export const createSimpleUserDocumentFromAuth = async (
 			console.log("error creating the user", error.message);
 		}
 	}
-
-	return userDocRef;
+	
+	
+	return await getUserByUid(userDocRef.id);
 };
 interface UserDocumentType extends Auth {
 	displayName: string,

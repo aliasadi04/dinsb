@@ -8,7 +8,7 @@ import FAQPage from './routes/faqPage';
 import { ThemeProvider } from '@emotion/react';
 import { PaletteMode, createTheme, responsiveFontSizes, useMediaQuery } from '@mui/material';
 import LejPage from './routes/lejPage';
-import { getUserByUid, getUsers, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
+import { createSimpleUserDocumentFromAuth, getUserByUid, getUsers, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
 import User from './utils/types/user.type';
 import { useDispatch } from 'react-redux';
 import { setAllUsers, setCurrentUser } from './store/user/user.action';
@@ -27,7 +27,7 @@ let theme = createTheme({
   palette: {
     common: {
       black: '#131200',
-      white:'#FFF8F0',
+      white: '#FFF8F0',
     },
     primary: {
       main: '#EE7203'
@@ -53,19 +53,20 @@ function App() {
 
   const dispatch = useDispatch();
 
-  const setCurrentUserFromFirebase = async (uid: string) => {
+  const setCurrentUserFromFirebase = async (user: User) => {
 
-    getUserByUid(uid).then(({ createdAt, phoneNumber, bookings }) => {
+    const { createdAt, phoneNumber, bookings } = await createSimpleUserDocumentFromAuth(user, { bookings: [] });
+    // getUserByUid(uid).then(({ createdAt, phoneNumber, bookings }) => {
 
-      dispatch(setCurrentUser({ createdAt, phoneNumber, bookings }));
+    dispatch(setCurrentUser({ createdAt, phoneNumber, bookings }));
 
 
-    })
+    // })
   }
-  const setAllUsersFromFirebase = async ()=>{
+  const setAllUsersFromFirebase = async () => {
     const allUsersFromFirebase = await getUsers();
-    
-    
+
+
     dispatch(setAllUsers(allUsersFromFirebase));
   }
   useEffect(() => {
@@ -75,9 +76,10 @@ function App() {
     const unsubscribeFromUsersListener = onAuthStateChangedListener((user: FirebaseUser) => {
 
 
+
       if (user) {
         console.log('LOGIN');
-        setCurrentUserFromFirebase(user.uid);
+        setCurrentUserFromFirebase(user);
 
 
 
