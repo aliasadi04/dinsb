@@ -13,6 +13,13 @@ import validator from "validator";
 import { LoadingButton } from '@mui/lab';
 import { HashLink } from 'react-router-hash-link';
 
+// const client = require('twilio')(
+//   process.env.TWILIO_ACCOUNT_SID,
+//   process.env.TWILIO_AUTH_TOKEN
+// );
+
+
+
 const arraysOverlap = (array1: string[], array2: string[]): boolean => {
   return array1.some((item) => array2.includes(item));
 };
@@ -82,6 +89,19 @@ const Lej = () => {
     }
   }
 
+  const testClick = () => {
+    client.messages
+      .create({
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: '+4525677575',
+        body: 'Testt'
+      }).then((res) => { console.log(res); }
+      )
+      .catch(err => {
+        console.log(err);
+
+      });
+  }
 
   const submitHandler = async () => {
     setError('');
@@ -306,6 +326,7 @@ const Lej = () => {
           <Button onClick={dialogSubmitHandler}>Bekræft</Button>
         </DialogActions>
       </Dialog>
+      <Button onClick={testClick} >send message</Button>
       <div id="recaptcha-container"></div>
     </Box>
 
