@@ -18,9 +18,10 @@ const arraysOverlap = (array1: string[], array2: string[]): boolean => {
 };
 
 
-const weekendCounter = (start: Moment, end: Moment): number => {
+const weekendCounter = (startInput: Moment, endInput: Moment): number => {
   let weekdayCounter = 0;
-
+  let start = startInput.clone();
+  let end = endInput.clone();
   while (start <= end) {
     if (start.format('ddd') === 'Sat' || start.format('ddd') === 'Sun' || start.format('ddd') === 'Fri') {
       weekdayCounter++; //add 1 to your counter if its not a weekend day
@@ -35,14 +36,10 @@ const weekendCounter = (start: Moment, end: Moment): number => {
 const Lej = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [startDate, setStartDate] = React.useState<Moment | null>(null);
-  const [endDate, setEndDate] = React.useState<Moment | null>(null);
-
-  const [dateInput, setDateInput] = useState<{ startDate: Moment | null, endDate: Moment | null }>({ startDate: null, endDate: null })
+  const [dateData, setDateData] = useState<{ startDate: Moment | null, endDate: Moment | null, daysInterval?: number, pris?: number, chosenDays: string[] }>({ pris: 0, chosenDays: [], startDate: null, endDate: null, daysInterval: 0 });
+  const { pris, chosenDays, startDate, endDate, daysInterval } = dateData;
   const [inputPhoneNumber, setInputPhoneNumber] = useState('');
-  const [chosenDays, setChosenDays] = useState<string[]>([]);
-  const [daysDifference, setDaysDifference] = useState(0);
-  const [pris, setPris] = useState(0);
+
   const [confirmationObject, setConfirmationObject] = useState<ConfirmationResult | null>(null);
   const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
   const [input, setInput] = useState('');
@@ -54,6 +51,8 @@ const Lej = () => {
     acc.push(...user.bookings);
     return (acc);
   }, []);
+
+
   const handleOpenPhoneDialog = () => {
     setOpenPhoneDialog(true);
   };
@@ -62,39 +61,12 @@ const Lej = () => {
     setOpenPhoneDialog(false);
   };
 
-  useEffect(() => {
-    if (!startDate) return
-    if (!endDate) return
-    const daysInterval = endDate.diff(startDate, 'days') + 1;
-
-    setDaysDifference(daysInterval);
 
 
-    const weekendsBetween = weekendCounter(startDate, endDate);
 
-
-    const daysBetween = daysInterval - weekendsBetween;
-
-    setPris(daysBetween * 199 + weekendsBetween * 399)
-
-    let listToReturn: string[] = [];
-    let startingDate = startDate;
-
-    while (endDate.diff(startingDate) >= 0) {
-      listToReturn.push(startingDate.format('MMM Do YY'));
-      startingDate.add(1, 'days');
-    }
-
-    setChosenDays(listToReturn);
-
-  }, [endDate, startDate])
-
-
-  const onCaptchaVerify=()=>{
-   
-    
+  const onCaptchaVerify = () => {
     if (!window.recaptchaVerifier) {
-      return(new RecaptchaVerifier(
+      return (new RecaptchaVerifier(
         "recaptcha-container",
         {
           size: "invisible",
@@ -105,8 +77,8 @@ const Lej = () => {
         },
         auth
       ))
-    }else{
-      return(window.recaptchaVerifier);
+    } else {
+      return (window.recaptchaVerifier);
     }
   }
 
@@ -114,7 +86,7 @@ const Lej = () => {
   const submitHandler = async () => {
     setError('');
 
-    const appVerifier=onCaptchaVerify();
+    const appVerifier = onCaptchaVerify();
     setLoading(true);
 
     var phoneNumber: string = inputPhoneNumber;
@@ -129,7 +101,7 @@ const Lej = () => {
 
     if (validator.isMobilePhone(phoneNumber, 'da-DK')) {
       setInputPhoneNumber('');
-      
+
       PhoneNumberSignIn(phoneNumber, appVerifier).then((res) => { setConfirmationObject(res); handleOpenPhoneDialog(); }).catch((error) => { setError(formatErrorMessage(error)); setLoading(false); })
 
     } else {
@@ -140,13 +112,16 @@ const Lej = () => {
 
   }
 
+
+
+
   const dialogSubmitHandler = async () => {
     setError('');
     if (confirmationObject) {
       handleClosePhoneDialog();
       try {
-        
-        
+
+
         const response = await confirmationObject.confirm(input);
 
         // if (response.user.phoneNumber) {
@@ -155,17 +130,17 @@ const Lej = () => {
         //     .catch((error) => console.log(error));
         // }
         if (currentUser) {
-          console.log('User:');
-          console.log(currentUser);
-          
+
+
           const allBookedDates = await getBookedDates();
+
           if (!arraysOverlap(allBookedDates, chosenDays)) {
             try {
               const setBookingResponse = await updateDocumentInfo('users', { bookings: (currentUser && currentUser.bookings ? [...currentUser.bookings, ...chosenDays] : [...chosenDays]) }, response.user.uid)
               alert('Booking gennemført!');
             }
             catch (error) {
-              console.log(error);
+
 
               setError(formatErrorMessage(error));
               setLoading(false);
@@ -193,25 +168,87 @@ const Lej = () => {
     // createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
   }
 
+
+
+  const onChangeDate = ({ name, date }: { name: 'startDate' | 'endDate', date: moment.Moment }) => {
+
+
+    const newDates = {
+      ...dateData,
+      [name]: date,
+    };
+    const { startDate, endDate } = newDates;
+
+
+
+
+
+    if (startDate && endDate) {
+
+
+
+
+      const daysDifference = endDate.diff(startDate, 'days') + 1;
+
+
+      const weekendsBetween = weekendCounter(startDate, endDate);
+
+
+
+
+      const daysBetween = daysDifference - weekendsBetween;
+
+      const pris = daysBetween * 199 + weekendsBetween * 399;
+
+      let chosenDays: string[] = [];
+      let startingDate = startDate.clone();
+
+      while (endDate.diff(startingDate) >= 0) {
+        chosenDays.push(startingDate.format('MMM Do YY'));
+        startingDate.add(1, 'days');
+      }
+
+
+
+
+      setDateData({
+        ...newDates,
+        pris: pris,
+        daysInterval: daysDifference,
+        chosenDays: chosenDays,
+
+      });
+
+    } else {
+      setDateData({
+        ...newDates,
+
+      })
+    }
+
+
+
+  }
+
   return (
     <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'flex-start', minHeight: 1000, pb: 100, ml: 1, justifyContent: (startDate && endDate ? 'space-around' : 'center'), px: { s: 0, md: 10 } }}>
 
 
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '40%', transition: 'right 2s', minWidth: '400px' }}>
         <Typography variant='h2' fontWeight={700} my={3}>Lej en soundboks </Typography>
-        <Typography variant='h4' fontWeight={400} fontStyle='italic' my={3}>Skal afhentes ved Triumvej 62B, Bagsværd tidligst kl. 9 på startdagen </Typography>
+        {/* <Typography variant='h4' fontWeight={400} fontStyle='italic' my={3}>Skal afhentes ved Triumvej 62B, Bagsværd tidligst kl. 9 på startdagen </Typography> */}
         <Typography variant='h3' fontWeight={600} sx={{ mb: 3 }} >Vælg dato</Typography>
 
 
         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, alignItems: 'center', justifyContent: 'space-between' }} >
           <Typography variant='h4' sx={{ mx: 2 }}>Fra</Typography>
-          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='start dato' formatDensity='spacious' disablePast value={startDate} onChange={(value) => setStartDate(moment(value))} />
+          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='start dato' formatDensity='spacious' disablePast value={startDate} onChange={(value) => onChangeDate({ name: 'startDate', date: moment(value) })} />
           <Typography variant='h4' sx={{ mx: 2 }}>Til</Typography>
-          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='slut dato' formatDensity='spacious' disablePast value={endDate} onChange={(value) => setEndDate(moment(value))} />
+          <DatePicker format='DD / MM / YY' displayWeekNumber shouldDisableDate={(date) => bookedDates.includes(date.format('MMM Do YY'))} label='slut dato' formatDensity='spacious' disablePast value={endDate} onChange={(value) => onChangeDate({ name: 'endDate', date: moment(value) })} />
         </Box>
 
         <Typography variant='h5' fontWeight={400} fontStyle='italic' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 5 }}>
-          {daysDifference ? daysDifference >= 0 ? (`Lejeperiode : ${daysDifference} ${daysDifference > 1 ? 'dage' : 'dag'}`) : 'Slutdato skal være efter startdato!' : 'Vælg venligst en start og slut dato'}
+          {daysInterval !== 0 ? daysInterval > 0 ? (`Lejeperiode : ${daysInterval} ${daysInterval > 1 ? 'dage' : 'dag'}`) : 'slut dato kan ikke være før start dato!' : 'Vælg venligst en start og en slut dato'}
         </Typography>
 
         <Typography variant='h4' fontWeight={600} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', my: 2 }}>
