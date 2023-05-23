@@ -32,7 +32,7 @@ const FAQ = ({ q, a }: { q: string, a: string }) => {
                         // variant='h5' 
 
                         fontWeight={600} sx={{ pb: 3 }}>{q}</Typography>
-                    <ArrowBackIosNewIcon fontSize='large' color='primary' sx={{ transform: (open ? 'rotate(270deg)' : 'rotate(90deg)'),transition:'transform 0.2s ease-in-out' }} />
+                    <ArrowBackIosNewIcon fontSize='large' color='primary' sx={{ transform: (open ? 'rotate(90deg)' : 'rotate(-90deg)'),transition:'transform 0.4s ease-in-out' }} />
                 </Box>
                 <Typography variant='h5' mt={4} >{a}</Typography>
 

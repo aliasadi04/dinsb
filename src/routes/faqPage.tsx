@@ -31,7 +31,7 @@ const faq = [
 
 const FAQPage = () => {
   return (
-    <Box sx={{flexGrow:1,mt:1,minHeight:100,display:'flex',flexDirection:'column',alignItems:'center',py:10,}}>
+    <Box sx={{flexGrow:1,mt:1,minHeight:900,display:'flex',flexDirection:'column',alignItems:'center',py:10,}}>
 
     {faq.map(({question,answer})=><FAQ key={answer+question} q={question} a={answer} />)}
 
