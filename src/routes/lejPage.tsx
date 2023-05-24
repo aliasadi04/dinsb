@@ -89,19 +89,19 @@ const Lej = () => {
     }
   }
 
-  const testClick = () => {
-    client.messages
-      .create({
-        from: process.env.TWILIO_PHONE_NUMBER,
-        to: '+4525677575',
-        body: 'Testt'
-      }).then((res) => { console.log(res); }
-      )
-      .catch(err => {
-        console.log(err);
+  // const testClick = () => {
+  //   client.messages
+  //     .create({
+  //       from: process.env.TWILIO_PHONE_NUMBER,
+  //       to: '+4525677575',
+  //       body: 'Testt'
+  //     }).then((res) => { console.log(res); }
+  //     )
+  //     .catch(err => {
+  //       console.log(err);
 
-      });
-  }
+  //     });
+  // }
 
   const submitHandler = async () => {
     setError('');
