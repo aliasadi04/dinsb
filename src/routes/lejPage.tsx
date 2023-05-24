@@ -326,7 +326,7 @@ const Lej = () => {
           <Button onClick={dialogSubmitHandler}>Bekræft</Button>
         </DialogActions>
       </Dialog>
-      <Button onClick={testClick} >send message</Button>
+      {/* <Button onClick={testClick} >send message</Button> */}
       <div id="recaptcha-container"></div>
     </Box>
 
