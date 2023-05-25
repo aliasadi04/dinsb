@@ -83,7 +83,7 @@ const Home = () => {
                             {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
                                 <DoneOutlineIcon color='primary' sx={{ mr: 1 }} />{cardDetail}</Typography>)}
 
-                            <Typography variant='h3' fontWeight={600} >99 KR.</Typography>
+                            <Typography variant='h3' fontWeight={600} >199 KR.</Typography>
                         </CardContent>
                     </Card>
 

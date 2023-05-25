@@ -233,10 +233,10 @@ const Navbar = () => {
         <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
           <Typography fontWeight={700} variant='h4'>Sider</Typography>
 
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5,textDecoration:'none',color:'white'  }} variant='h6' component='a' >Om os</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' >Om os</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' href='lej'  >Lej soundboks</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' href='faq'>FAQs</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5,textDecoration:'none',color:'white'  }} variant='h6' component='a' >Handelsbetingelser</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' >Handelsbetingelser</Typography>
 
         </Box>
 
