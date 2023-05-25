@@ -17,6 +17,8 @@ const FAQ = ({ q, a }: { q: string, a: string }) => {
 
             mx: 5, borderColor: '#EE7203', borderWidth: 3, borderStyle: 'solid', my: 2, borderRadius: 5, width: '70%', px: 2,
             cursor: 'pointer',
+            boxShadow:0,
+            transition:'box-shadow 0.2s ease-in-out',
             "&:hover": {
                 boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
                 transition: 'box-shadow 0.2s ease-in-out',
@@ -24,7 +26,7 @@ const FAQ = ({ q, a }: { q: string, a: string }) => {
 
             }, display: 'flex', flexDirection: 'column', alignItems: 'center', py: 2
         }}>
-            <Collapse in={open} collapsedSize={40} sx={{ width: '100%' }} easing='easing-in-out' >
+            <Collapse in={open} collapsedSize={40} sx={{ width: '100%' }} easing='easing-in-out' timeout={400} >
 
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
                     <Typography
