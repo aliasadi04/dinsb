@@ -15,7 +15,7 @@ const slideUpStyle = {
     position: 'relative',
     transition: 'top ease 0.5s',
     ":hover": {
-        top: '-80px',
+        top: '-40px',
     }
 }
 const Home = () => {
