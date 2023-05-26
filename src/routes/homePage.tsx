@@ -71,7 +71,7 @@ const Home = () => {
 
 
 
-                <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ width: '100%', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>Hvorfor vælge os</Typography>
+                <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ display:'flex',width: '100%', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>Hvorfor vælge os</Typography>
 
 
               
