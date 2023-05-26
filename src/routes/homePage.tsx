@@ -21,9 +21,9 @@ const slideUpStyle = {
 }
 
 const HvorforVælgeOsArray = [
-<BasicCard heading='Gratis Online Reservering' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />, 
-<BasicCard heading='Fleksibilitet i Levering og Afhentning' body='Vi tilbyder fleksible leverings- og afhentningsmuligheder for vores kunder, så du kan få din soundboks leveret til lige præcis det sted og tidspunkt, der passer dig bedst. Vi sørger også for at afhente udstyret igen, når du er færdig med at bruge det.' />, 
-<BasicCard heading='Pris og Tilgængelighed' body='Vi tilbyder konkurrencedygtige priser og har altid flere soundbokse på lager, så du kan være sikker på, at du altid kan få fat i den udstyr, du har brug for. Vi sørger også for at tilbyde attraktive pakkeløsninger til vores kunder, så du kan spare penge ved at leje flere produkter samtidigt.' />
+    <BasicCard heading='Gratis Online Reservering' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />,
+    <BasicCard heading='Fleksibilitet i Levering og Afhentning' body='Vi tilbyder fleksible leverings- og afhentningsmuligheder for vores kunder, så du kan få din soundboks leveret til lige præcis det sted og tidspunkt, der passer dig bedst. Vi sørger også for at afhente udstyret igen, når du er færdig med at bruge det.' />,
+    <BasicCard heading='Pris og Tilgængelighed' body='Vi tilbyder konkurrencedygtige priser og har altid flere soundbokse på lager, så du kan være sikker på, at du altid kan få fat i den udstyr, du har brug for. Vi sørger også for at tilbyde attraktive pakkeløsninger til vores kunder, så du kan spare penge ved at leje flere produkter samtidigt.' />
 
 ]
 
@@ -31,7 +31,7 @@ const Home = () => {
     const [carouselIndex, setCarouselIndex] = useState(0);
 
     const carouselNextIndex = (carouselIndex + 1) % 3;
-    const carouselPrevIndex = carouselIndex==0 ? 2 : (carouselIndex - 1) % 3;
+    const carouselPrevIndex = carouselIndex == 0 ? 2 : (carouselIndex - 1) % 3;
 
 
     return (
@@ -71,11 +71,11 @@ const Home = () => {
 
 
 
-                <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ display:'flex',width: '100%', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>Hvorfor vælge os</Typography>
+                <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ display: 'flex', width: '100%', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>Hvorfor vælge os</Typography>
 
 
-              
-                <Carousel sx={{ minWidth: 400, width: '40%', justifyContent: 'start', display:'flex',flexDirection:'column-reverse', alignItems:'space-between',minHeight:300}}
+
+                <Carousel sx={{ minWidth: 400, width: '40%', justifyContent: 'start', display: 'flex', flexDirection: 'column-reverse', alignItems: 'space-between', minHeight: 300 }}
                     next={(next, active) => { setCarouselIndex(next); }}
                     prev={(prev, active) => { setCarouselIndex(prev); }}
                     autoPlay={false}
@@ -92,9 +92,9 @@ const Home = () => {
                         style: {
                             backgroundColor: 'transparent',
                             borderRadius: 0,
-                            opacity:1,
-                            marginLeft:3,
-                            marginRight:3,
+                            opacity: 1,
+                            marginLeft: 4,
+                            marginRight: 4,
                         }
                     }}
                     navButtonsWrapperProps={{   // Move the buttons to the bottom. Unsetting top here to override default style.
@@ -116,7 +116,7 @@ const Home = () => {
 
                     activeIndicatorIconButtonProps={{
                         style: {
-                            
+
                             color: '#EE7203', // 2
 
                         }
@@ -124,17 +124,17 @@ const Home = () => {
 
                     indicatorContainerProps={{
                         style: {
-                            position:'relative',
+                            position: 'relative',
                             bottom: 3,
                             alignItems: 'end',
-                            marginTop:'20px',
+                            marginTop: '20px',
 
                         }
 
                     }}>
                     {HvorforVælgeOsArray}
                 </Carousel>
-               
+
                 <FlexBreak />
 
 
