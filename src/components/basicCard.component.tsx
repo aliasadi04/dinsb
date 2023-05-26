@@ -20,6 +20,7 @@ const BasicCard = ({ heading = 'Card Heading', body = dummyText, sx = {} }: Prop
             boxShadow: 4,
             ...sx,
             my: 2,
+            
 
 
 
@@ -30,7 +31,7 @@ const BasicCard = ({ heading = 'Card Heading', body = dummyText, sx = {} }: Prop
                     {heading}
                 </Typography>
 
-                <Typography variant="body1" fontWeight={400} fontSize={20} >
+                <Typography variant="body1" fontWeight={400} fontSize={{xs:18,lg:22}} >
                     {`        ${body}`}
                 </Typography>
             </CardContent>
