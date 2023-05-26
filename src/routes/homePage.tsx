@@ -15,7 +15,7 @@ const slideUpStyle = {
     position: 'relative',
     transition: 'top ease 0.5s',
     ":hover": {
-        top: '-30px',
+        top: '-80px',
     }
 }
 const Home = () => {
@@ -45,12 +45,12 @@ const Home = () => {
 
                 <Box sx={{
                     mb: 20, transition: 'scale ease 0.5s',
-                    paddingLeft:10,
+                    paddingLeft: 10,
                     ":hover": {
                         scale: '120%',
                     }
                 }}>
-                
+
                     <img alt='Soundboks gen 3' src={soundbImage} />
                 </Box>
 
@@ -94,7 +94,7 @@ const Home = () => {
                             <Typography variant='h4' fontWeight={600} color='common.white' mb={1}>Weekendsleje</Typography>
                             <Typography fontSize={17} color='common.white' mb={1} fontWeight={600} textAlign='center'>Lej en soundboks hele weekenden til en rimlig pris!</Typography>
 
-                            {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' color='common.white' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
+                            {['Opladt Batteri', 'Oplader', '44% billigere!', 'Support'].map((cardDetail) => <Typography variant='h6' color='common.white' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
                                 <DoneOutlineIcon sx={{ mr: 1, }} />{cardDetail}</Typography>)}
 
 
