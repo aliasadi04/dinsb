@@ -1,10 +1,10 @@
 import { Box, Card, CardContent, Paper, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import BasicCard from '../components/basicCard.component'
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import FlexBreak from '../components/flexBreak.component';
-
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import soundbImage from '../assets/soundboks.png';
 import Carousel from 'react-material-ui-carousel';
 export const dagslejehverdagspris = 499;
@@ -19,7 +19,21 @@ const slideUpStyle = {
         top: '-40px',
     }
 }
+
+const HvorforVælgeOsArray = [
+<BasicCard heading='Gratis Online Reservering' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />, 
+<BasicCard heading='Fleksibilitet i Levering og Afhentning' body='Vi tilbyder fleksible leverings- og afhentningsmuligheder for vores kunder, så du kan få din soundboks leveret til lige præcis det sted og tidspunkt, der passer dig bedst. Vi sørger også for at afhente udstyret igen, når du er færdig med at bruge det.' />, 
+<BasicCard heading='Pris og Tilgængelighed' body='Vi tilbyder konkurrencedygtige priser og har altid flere soundbokse på lager, så du kan være sikker på, at du altid kan få fat i den udstyr, du har brug for. Vi sørger også for at tilbyde attraktive pakkeløsninger til vores kunder, så du kan spare penge ved at leje flere produkter samtidigt.' />
+
+]
+
 const Home = () => {
+    const [carouselIndex, setCarouselIndex] = useState(0);
+
+    const carouselNextIndex = (carouselIndex + 1) % 3;
+    const carouselPrevIndex = carouselIndex==0 ? 2 : (carouselIndex - 1) % 3;
+
+
     return (
         <>
             <Paper sx={{
@@ -59,12 +73,68 @@ const Home = () => {
 
                 <Typography id='hvorfor' fontWeight={700} fontSize={{ xs: 40, md: 40 }} sx={{ width: '100%', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>Hvorfor vælge os</Typography>
 
-                <Carousel sx={{ minWidth:400,width:'40%', justifyContent: 'center' }} autoPlay={false} cycleNavigation={true} swipe={true} indicators={false}  >
-                    <BasicCard heading='Gratis Online Reservering' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />
-                    <BasicCard heading='Fleksibilitet i Levering og Afhentning' body='Vi tilbyder fleksible leverings- og afhentningsmuligheder for vores kunder, så du kan få din soundboks leveret til lige præcis det sted og tidspunkt, der passer dig bedst. Vi sørger også for at afhente udstyret igen, når du er færdig med at bruge det.' />
-                    <BasicCard heading='Pris og Tilgængelighed' body='Vi tilbyder konkurrencedygtige priser og har altid flere soundbokse på lager, så du kan være sikker på, at du altid kan få fat i den udstyr, du har brug for. Vi sørger også for at tilbyde attraktive pakkeløsninger til vores kunder, så du kan spare penge ved at leje flere produkter samtidigt.' />
-                </Carousel>
 
+              
+                <Carousel sx={{ minWidth: 400, width: '40%', justifyContent: 'start', display:'flex',flexDirection:'column-reverse', alignItems:'space-between',minHeight:300}}
+                    next={(next, active) => { setCarouselIndex(next); }}
+                    prev={(prev, active) => { setCarouselIndex(prev); }}
+                    autoPlay={false}
+                    cycleNavigation={true}
+                    swipe={true}
+                    animation='slide'
+                    duration={700}
+                    index={0}
+                    fullHeightHover={false}
+                    PrevIcon={<ArrowBackIosIcon fontSize='large' sx={{ color: '#131200' }} />}
+                    NextIcon={<ArrowBackIosIcon fontSize='large' sx={{ color: '#131200', rotate: '180deg', }} />}
+
+                    navButtonsProps={{          // Change the colors and radius of the actual buttons. THIS STYLES BOTH BUTTONS
+                        style: {
+                            backgroundColor: 'transparent',
+                            borderRadius: 0,
+                            opacity:1,
+                            marginLeft:3,
+                            marginRight:3,
+                        }
+                    }}
+                    navButtonsWrapperProps={{   // Move the buttons to the bottom. Unsetting top here to override default style.
+                        style: {
+
+                            top: '30%',
+
+                        }
+                    }}
+
+
+                    indicatorIconButtonProps={{
+                        style: {
+                            padding: '7px',    // 1
+                            color: '#131200',
+                            fontSize: '40px',
+                        }
+                    }}
+
+                    activeIndicatorIconButtonProps={{
+                        style: {
+                            
+                            color: '#EE7203', // 2
+
+                        }
+                    }}
+
+                    indicatorContainerProps={{
+                        style: {
+                            position:'relative',
+                            bottom: 3,
+                            alignItems: 'end',
+                            marginTop:'20px',
+
+                        }
+
+                    }}>
+                    {HvorforVælgeOsArray}
+                </Carousel>
+               
                 <FlexBreak />
 
 
@@ -133,7 +203,7 @@ const Home = () => {
                 }} /> */}
 
 
-            </Paper>
+            </Paper >
             <Outlet />
 
         </>
