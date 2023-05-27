@@ -11,14 +11,6 @@ export const dagslejehverdagspris = 499;
 export const dagslejeweekendpris = 199;
 export const weekendslejepris = 499;
 
-const slideUpStyle = {
-    top: 0,
-    position: 'relative',
-    transition: 'top ease 0.5s',
-    ":hover": {
-        top: '-40px',
-    }
-}
 
 const HvorforVælgeOsArray = [
     <BasicCard heading='Gratis Online Reservering' body='Hos DinSoundboks er booking en leg! Med vores online system kan du reservere en Soundboks ved blot at indtaste dit telefonnummer. Hurtigt, nemt og uden besvær. Planlæg din fest på ingen tid, og få den perfekte lydoplevelse med os!' />,
@@ -146,50 +138,52 @@ const Home = () => {
 
                 <FlexBreak m={5} />
                 <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'center', }}>
-                    <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, width: 300, mx: 3, height: 550, ...slideUpStyle }}>
-                        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
-                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
-                            <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
-                            <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en hverdagsaften</Typography>
+                    <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, width: 300, mx: 3, height: 550, top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }}}>
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
+                        <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
+                        <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
+                        <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en hverdagsaften</Typography>
 
-                            {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
-                                <DoneOutlineIcon color='primary' sx={{ mr: 1 }} />{cardDetail}</Typography>)}
+                        {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
+                            <DoneOutlineIcon color='primary' sx={{ mr: 1 }} />{cardDetail}</Typography>)}
 
-                            <Typography variant='h3' fontWeight={600} >199 KR.</Typography>
-                        </CardContent>
-                    </Card>
-
-
-                    <Card sx={{ boxShadow: 15, mb: 5, borderRadius: 10, height: 550, width: 300, mx: 3, bgcolor: '#EE7203', ...slideUpStyle }}>
-                        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
-                            <Typography fontSize={19} color='common.white' fontWeight={600}>Fredag - Søndag</Typography>
-                            <Typography variant='h4' fontWeight={600} color='common.white' mb={1}>Weekendsleje</Typography>
-                            <Typography fontSize={17} color='common.white' mb={1} fontWeight={600} textAlign='center'>Lej en soundboks hele weekenden til en rimlig pris!</Typography>
-
-                            {['Opladt Batteri', 'Oplader', '44% billigere!', 'Support'].map((cardDetail) => <Typography variant='h6' color='common.white' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
-                                <DoneOutlineIcon sx={{ mr: 1, }} />{cardDetail}</Typography>)}
+                        <Typography variant='h3' fontWeight={600} >199 KR.</Typography>
+                    </CardContent>
+                </Card>
 
 
-                            <Typography variant='h3' color='common.white' fontWeight={600} >399 KR.</Typography>
-                        </CardContent>
-                    </Card>
+                <Card sx={{
+                    boxShadow: 15, mb: 5, borderRadius: 10, height: 550, width: 300, mx: 3, bgcolor: '#EE7203', top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }
+                }}>
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
+                        <Typography fontSize={19} color='common.white' fontWeight={600}>Fredag - Søndag</Typography>
+                        <Typography variant='h4' fontWeight={600} color='common.white' mb={1}>Weekendsleje</Typography>
+                        <Typography fontSize={17} color='common.white' mb={1} fontWeight={600} textAlign='center'>Lej en soundboks hele weekenden til en rimlig pris!</Typography>
+
+                        {['Opladt Batteri', 'Oplader', '44% billigere!', 'Support'].map((cardDetail) => <Typography variant='h6' color='common.white' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
+                            <DoneOutlineIcon sx={{ mr: 1, }} />{cardDetail}</Typography>)}
 
 
-                    <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, height: 550, width: 300, mx: 3, ...slideUpStyle }}>
-                        <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
-                            <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
-                            <Typography variant='h4' fontWeight={600} mb={1}>Dagslej</Typography>
-                            <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en weekend dag</Typography>
+                        <Typography variant='h3' color='common.white' fontWeight={600} >399 KR.</Typography>
+                    </CardContent>
+                </Card>
 
-                            {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
-                                <DoneOutlineIcon color='primary' sx={{ mr: 1 }} />{cardDetail}</Typography>)}
 
-                            <Typography variant='h3' fontWeight={600} >299 KR.</Typography>
-                        </CardContent>
-                    </Card>
-                </Box>
+                <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, height: 550, width: 300, mx: 3, top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }}}>
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
+                        <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
+                        <Typography variant='h4' fontWeight={600} mb={1}>Dagslej</Typography>
+                        <Typography fontSize={17} color='text.secondary' mb={1} fontWeight={600}>Lej en soundboks en weekend dag</Typography>
 
-                {/* <Box sx={{
+                        {['Opladt Batteri', 'GPS tracker', 'Oplader', 'Support'].map((cardDetail) => <Typography variant='h6' key={cardDetail} sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', mb: 2, width: '100%', px: 2, boxSizing: 'border-box' }}>
+                            <DoneOutlineIcon color='primary' sx={{ mr: 1 }} />{cardDetail}</Typography>)}
+
+                        <Typography variant='h3' fontWeight={600} >299 KR.</Typography>
+                    </CardContent>
+                </Card>
+            </Box>
+
+            {/* <Box sx={{
                     
                     position:'relative',
                     width:'2000px',
@@ -203,7 +197,7 @@ const Home = () => {
                 }} /> */}
 
 
-            </Paper >
+        </Paper >
             <Outlet />
 
         </>
