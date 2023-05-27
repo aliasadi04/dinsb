@@ -54,7 +54,7 @@ const Home = () => {
                     mb: 20, transition: 'scale ease 0.5s',
                     paddingLeft: 10,
                     ":hover": {
-                        scale: '120%',
+                        scale: '105%',
                     }
                 }}>
 
