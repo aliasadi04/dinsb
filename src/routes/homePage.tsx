@@ -54,7 +54,7 @@ const Home = () => {
                         // fontSize={{ xs: 35, md: 80 }} 
                         fontWeight={700}
                         variant='h1'
-                    >Lej En Soundboks For Kun 99kr</Typography>
+                    >Lej En Soundboks For Kun 199kr</Typography>
                     <Typography fontWeight={400} variant='h4' >Vi udlejer soundbokse til din næste fest i hele storkøbenhavn</Typography>
                 </Box>
 
