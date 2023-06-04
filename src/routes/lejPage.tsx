@@ -55,7 +55,9 @@ const Lej = () => {
   const allUsers = useSelector(selectAllUsers);
 
   const bookedDates = allUsers.reduce((acc, user) => {
-    acc.push(...user.bookings);
+    user.bookings.forEach(element => {
+      acc.push(...element.chosenDays);
+    });
     return (acc);
   }, []);
 
@@ -149,6 +151,8 @@ const Lej = () => {
         //     .then(res => console.log(res))
         //     .catch((error) => console.log(error));
         // }
+        
+        
         if (currentUser) {
 
 
@@ -156,9 +160,9 @@ const Lej = () => {
 
           if (!arraysOverlap(allBookedDates, chosenDays)) {
             try {
-              const setBookingResponse = await updateDocumentInfo('users', { bookings: (currentUser && currentUser.bookings ? [...currentUser.bookings, ...chosenDays] : [...chosenDays]) }, response.user.uid)
+              const setBookingResponse = await updateDocumentInfo('users', { bookings: (currentUser && currentUser.bookings ? [...currentUser.bookings, { pris, daysInterval, chosenDays }] : [{ pris, daysInterval, chosenDays }]) }, response.user.uid)
               alert('Booking gennemført!');
-              
+
             }
             catch (error) {
 

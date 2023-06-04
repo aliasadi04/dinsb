@@ -123,7 +123,10 @@ export const getBookedDates = async () => {
 	const querySnapshot = await getDocs(q);
 
 	const dates: string[] = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		acc.push(...docSnapshot.data().bookings);
+		docSnapshot.data().bookings.forEach(element => {
+			acc.push(...element.chosenDays);
+		});
+		
 
 		return acc;
 	}, []);

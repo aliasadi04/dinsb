@@ -12,7 +12,7 @@ export interface UserReducerType {
 	allUsers: User[],
 }
 
-export const userReducer = (state: UserReducerType = INITIAL_STATE, action: PayloadAction<any>): UserReducerType => {
+export const userReducer = (state: UserReducerType, action: PayloadAction<any>): UserReducerType => {
 	const { type, payload } = action;
 
 	switch (type) {

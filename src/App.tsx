@@ -70,14 +70,12 @@ function App() {
 
     dispatch(setAllUsers(allUsersFromFirebase));
   }
-  useEffect(() => {
-    setAllUsersFromFirebase();
-  }, [])
+  
   useEffect(() => {
     const unsubscribeFromUsersListener = onAuthStateChangedListener((user: FirebaseUser) => {
 
 
-
+      setAllUsersFromFirebase();
       if (user) {
         console.log('LOGIN');
         setCurrentUserFromFirebase(user);
