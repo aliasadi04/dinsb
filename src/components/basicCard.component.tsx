@@ -9,18 +9,21 @@ interface Props {
 }
 const BasicCard = ({ heading = 'Card Heading', body = dummyText, sx = {} }: Props) => {
 
-   
+
     return (
         <Card sx={{
-            maxWidth: '60%',
-            width: 300,
+
+            mx:5,
+            justifySelf: 'center',
             borderRadius: 2,
+            padding:'auto',
             boxShadow: 4,
             ...sx,
-            my:2,
-            mx:2,
+            my: 2,
             
-            
+
+
+
         }}>
             <CardContent>
 
@@ -28,8 +31,8 @@ const BasicCard = ({ heading = 'Card Heading', body = dummyText, sx = {} }: Prop
                     {heading}
                 </Typography>
 
-                <Typography variant="body1" fontWeight={400} fontSize={18} >
-                    {body}
+                <Typography variant="body1" fontWeight={400} fontSize={{xs:18,lg:22}} >
+                    {`        ${body}`}
                 </Typography>
             </CardContent>
         </Card>

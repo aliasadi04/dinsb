@@ -2,8 +2,8 @@ import { AppBar, Box, Button, Divider, IconButton, Menu, MenuItem, Toolbar, Typo
 import React from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import MenuIcon from '@mui/icons-material/Menu';
-import SpeakerIcon from '@mui/icons-material/Speaker';
 import { HashLink } from 'react-router-hash-link';
+import DinSbLogo from './logo';
 
 
 
@@ -53,26 +53,7 @@ const Navbar = () => {
       }} >
 
 
-        <Typography
-          noWrap
-          component='a'
-          href='/'
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-
-            textDecoration: 'none',
-            marginLeft: '3%',
-
-            fontSize: { xs: 25, md: 40 },
-            alignItems: 'center'
-          }} >
-
-          <SpeakerIcon fontSize='large' color='primary' sx={{ display: { xs: 'none', md: 'flex' } }} />
-
-          <Box sx={{ fontWeight: 'bold', color: 'black' }} >din</Box>
-          <Box sx={{ fontWeight: 'bold', color: '#EE7203' }} > SB </Box>
-        </Typography>
+       <DinSbLogo/>
 
         <Toolbar sx={{
           display: 'flex',
@@ -233,10 +214,10 @@ const Navbar = () => {
         <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
           <Typography fontWeight={700} variant='h4'>Sider</Typography>
 
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5,textDecoration:'none',color:'white'  }} variant='h6' component='a' >Om os</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' >Om os</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' href='lej'  >Lej soundboks</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' href='faq'>FAQs</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5,textDecoration:'none',color:'white'  }} variant='h6' component='a' >Handelsbetingelser</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' >Handelsbetingelser</Typography>
 
         </Box>
 
