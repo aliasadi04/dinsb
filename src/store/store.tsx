@@ -7,20 +7,12 @@ import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
 //root reducer
 // export const store = createStore(rootReducer,undefined, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-export interface StoreReducerType {
+export type RootState = ReturnType<typeof rootReducer>;
 
-	user: {
-		currentUser: User,
-		allUsers: User[],
-	}
-
-}
-
-export const rootReducer = combineReducers<StoreReducerType>({
-
+export const rootReducer = combineReducers({
 	user: userReducer,
-
-
 });
 
-export const store = configureStore<StoreReducerType,any>({ reducer: {user:userReducer}});
+export const store = configureStore<RootState, any>({
+	reducer: { user: userReducer },
+});

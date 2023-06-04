@@ -1,18 +1,19 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { AnyAction } from "@reduxjs/toolkit";
 import { USER_REDUCER_ACTION_TYPES } from "./user.types";
 import User from "../../utils/types/user.type";
 
-const INITIAL_STATE = {
-	currentUser: {},
+
+
+export interface UserReducerType {
+ currentUser: User | null,
+	allUsers: User[],
+}
+const INITIAL_STATE:UserReducerType = {
+	currentUser: null,
 	allUsers: [],
 };
 
-export interface UserReducerType {
-	currentUser: User,
-	allUsers: User[],
-}
-
-export const userReducer = (state: UserReducerType, action: PayloadAction<any>): UserReducerType => {
+export const userReducer = (state=INITIAL_STATE, action: AnyAction): UserReducerType => {
 	const { type, payload } = action;
 
 	switch (type) {
