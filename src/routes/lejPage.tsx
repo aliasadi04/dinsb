@@ -12,6 +12,7 @@ import { signOutUser } from '../utils/firebase/firebase.utils';
 import validator from "validator";
 import { LoadingButton } from '@mui/lab';
 import { HashLink } from 'react-router-hash-link';
+import { useNavigate } from 'react-router-dom';
 
 // const client = require('twilio')(
 //   process.env.TWILIO_ACCOUNT_SID,
@@ -41,6 +42,7 @@ const weekendCounter = (startInput: Moment, endInput: Moment): number => {
 
 
 const Lej = () => {
+  const navigate=useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [dateData, setDateData] = useState<{ startDate: Moment | null, endDate: Moment | null, daysInterval?: number, pris?: number, chosenDays: string[] }>({ pris: 0, chosenDays: [], startDate: null, endDate: null, daysInterval: 0 });
@@ -161,7 +163,9 @@ const Lej = () => {
           if (!arraysOverlap(allBookedDates, chosenDays)) {
             try {
               const setBookingResponse = await updateDocumentInfo('users', { bookings: (currentUser && currentUser.bookings ? [...currentUser.bookings, { pris, daysInterval, chosenDays }] : [{ pris, daysInterval, chosenDays }]) }, response.user.uid)
-              alert('Booking gennemført!');
+              
+              navigate("../reciept")
+              // alert('Booking gennemført!');
 
             }
             catch (error) {
