@@ -158,6 +158,7 @@ const Lej = () => {
             try {
               const setBookingResponse = await updateDocumentInfo('users', { bookings: (currentUser && currentUser.bookings ? [...currentUser.bookings, ...chosenDays] : [...chosenDays]) }, response.user.uid)
               alert('Booking gennemført!');
+              
             }
             catch (error) {
 

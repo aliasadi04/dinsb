@@ -12,6 +12,7 @@ import { createSimpleUserDocumentFromAuth, getUserByUid, getUsers, onAuthStateCh
 import User from './utils/types/user.type';
 import { useDispatch } from 'react-redux';
 import { setAllUsers, setCurrentUser } from './store/user/user.action';
+import RecieptPage from './routes/recieptPage';
 
 // white
 //#FFF8F0
@@ -109,6 +110,7 @@ function App() {
 
           <Route path="/lej" element={<LejPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path='/reciept' element={<RecieptPage/>} />
         </Route>
 
       </Routes>
