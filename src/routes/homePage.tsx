@@ -30,7 +30,7 @@ const Home = () => {
         <>
             <Paper sx={{
                 display: 'flex',
-
+                gap:2,
                 flexFlow: 'row wrap',
                 height: '100%',
                 margin: 0,
@@ -38,21 +38,23 @@ const Home = () => {
                 justifyContent: 'center',
                 border: '0px solid black',
                 boxShadow: 'none',
-                pb: 40,
+               
+                
             }}>
 
-                <Box sx={{ width: '40%', paddingTop: 15, minWidth: 300, marginLeft: 1, }}>
+                <Box sx={{ display:'grid',width: '40%', minWidth: 300, marginLeft: 1,alignItems:'center',justifyContent:'center' }}>
                     <Typography
                         // fontSize={{ xs: 35, md: 80 }} 
                         fontWeight={700}
                         variant='h1'
                     >Lej En Soundboks For Kun 199kr</Typography>
-                    <Typography fontWeight={400} variant='h4' >Vi udlejer soundbokse til din næste fest i hele storkøbenhavn</Typography>
+                    <Typography  alignSelf={'start'} justifySelf={'start'} fontWeight={400} variant='h4' >Vi udlejer soundbokse til din næste fest i hele storkøbenhavn</Typography>
                 </Box>
 
                 <Box sx={{
                     mb: 20, transition: 'scale ease 0.5s',
-                    paddingLeft: 10,
+                    
+                    
                     ":hover": {
                         scale: '105%',
                     }
