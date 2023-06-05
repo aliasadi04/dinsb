@@ -1,18 +1,28 @@
-import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Outlet, Route, Routes } from "react-router-dom"
-import Navbar from './components/navbar.component';
-import Home from './routes/homePage';
-import FAQPage from './routes/faqPage';
-import { ThemeProvider } from '@emotion/react';
-import { PaletteMode, createTheme, responsiveFontSizes, useMediaQuery } from '@mui/material';
-import LejPage from './routes/lejPage';
-import { createSimpleUserDocumentFromAuth, getUserByUid, getUsers, onAuthStateChangedListener } from './utils/firebase/firebase.utils';
-import User from './utils/types/user.type';
-import { useDispatch } from 'react-redux';
-import { setAllUsers, setCurrentUser } from './store/user/user.action';
-import RecieptPage from './routes/recieptPage';
+import React, { useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Outlet, Route, Routes } from "react-router-dom";
+import Navbar from "./components/navbar.component";
+import Home from "./routes/homePage";
+import FAQPage from "./routes/faqPage";
+import { ThemeProvider } from "@emotion/react";
+import {
+	PaletteMode,
+	createTheme,
+	responsiveFontSizes,
+	useMediaQuery,
+} from "@mui/material";
+import LejPage from "./routes/lejPage";
+import {
+	createSimpleUserDocumentFromAuth,
+	getUserByUid,
+	getUsers,
+	onAuthStateChangedListener,
+} from "./utils/firebase/firebase.utils";
+import { User } from "./utils/types/user.type";
+import { useDispatch } from "react-redux";
+import { setAllUsers, setCurrentUser } from "./store/user/user.action";
+import RecieptPage from "./routes/recieptPage";
 
 // white
 //#FFF8F0
@@ -22,98 +32,75 @@ import RecieptPage from './routes/recieptPage';
 //secondary
 // 414770
 
-
-
 let theme = createTheme({
-  palette: {
-    common: {
-      black: '#131200',
-      white: '#FFF8F0',
-    },
-    primary: {
-      main: '#EE7203'
-    },
-    text: {
-      primary: '#140a00',
-
-    }
-  },
-  typography: {
-    fontFamily: 'Source Sans Pro'
-  }
-
+	palette: {
+		common: {
+			black: "#131200",
+			white: "#FFF8F0",
+		},
+		primary: {
+			main: "#EE7203",
+		},
+		text: {
+			primary: "#140a00",
+		},
+	},
+	typography: {
+		fontFamily: "Source Sans Pro",
+	},
 });
 
 theme = responsiveFontSizes(theme);
 
 interface FirebaseUser extends User {
-  uid: 'string'
+	uid: "string";
 }
 
 function App() {
+	const dispatch = useDispatch();
 
-  const dispatch = useDispatch();
+	const setCurrentUserFromFirebase = async (user: User) => {
+		const { createdAt, phoneNumber, bookings } =
+			await createSimpleUserDocumentFromAuth(user, { bookings: [] });
+		// getUserByUid(uid).then(({ createdAt, phoneNumber, bookings }) => {
 
-  const setCurrentUserFromFirebase = async (user: User) => {
+		dispatch(setCurrentUser({ createdAt, phoneNumber, bookings }));
 
-    const { createdAt, phoneNumber, bookings } = await createSimpleUserDocumentFromAuth(user, { bookings: [] });
-    // getUserByUid(uid).then(({ createdAt, phoneNumber, bookings }) => {
+		// })
+	};
+	const setAllUsersFromFirebase = async () => {
+		const allUsersFromFirebase = await getUsers();
 
-    dispatch(setCurrentUser({ createdAt, phoneNumber, bookings }));
+		dispatch(setAllUsers(allUsersFromFirebase));
+	};
 
+	useEffect(() => {
+		const unsubscribeFromUsersListener = onAuthStateChangedListener(
+			(user: FirebaseUser) => {
+				setAllUsersFromFirebase();
+				if (user) {
+					setCurrentUserFromFirebase(user);
+				} else {
+					dispatch(setCurrentUser({}));
+				}
+			}
+		);
+		return unsubscribeFromUsersListener;
+	}, []);
 
-    // })
-  }
-  const setAllUsersFromFirebase = async () => {
-    const allUsersFromFirebase = await getUsers();
+	return (
+		<ThemeProvider theme={theme}>
+			<Routes>
+				<Route path="/" element={<Navbar />}>
+					<Route index element={<Home />} />
 
-
-    dispatch(setAllUsers(allUsersFromFirebase));
-  }
-  
-  useEffect(() => {
-    const unsubscribeFromUsersListener = onAuthStateChangedListener((user: FirebaseUser) => {
-
-
-      setAllUsersFromFirebase();
-      if (user) {
-        console.log('LOGIN');
-        setCurrentUserFromFirebase(user);
-
-
-
-
-      } else {
-        console.log('LOGOU');
-        dispatch(setCurrentUser({}));
-      }
-    });
-    return unsubscribeFromUsersListener;
-  }, [])
-
-
-
-
-  return (
-    <ThemeProvider theme={theme} >
-      <Routes>
-        <Route path="/" element={<Navbar />} >
-
-
-          <Route index element={<Home />} />
-
-
-
-
-
-          <Route path="/lej" element={<LejPage />} />
-          <Route path="/faq" element={<FAQPage />} />
-          <Route path='/reciept' element={<RecieptPage/>} />
-        </Route>
-
-      </Routes>
-    </ThemeProvider>
-  );
+					<Route path="/lej" element={<LejPage />} />
+					<Route path="/faq" element={<FAQPage />} />
+					<Route path="/reciept" element={<RecieptPage />} />
+				</Route>
+			</Routes>
+		</ThemeProvider>
+	);
 }
 
 export default App;

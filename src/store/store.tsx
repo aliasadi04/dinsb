@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import { userReducer } from "./user/user.reducer";
-import User from "../utils/types/user.type";
+import { User } from "../utils/types/user.type";
 import { composeWithDevTools } from "@reduxjs/toolkit/dist/devtoolsExtension";
 
 //root reducer

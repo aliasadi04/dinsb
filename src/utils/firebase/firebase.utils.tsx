@@ -29,7 +29,7 @@ import {
 	onSnapshot,
 	QueryDocumentSnapshot,
 } from "firebase/firestore";
-import User from "../types/user.type";
+import { User } from "../types/user.type";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBQ37oAQneDFd0f7D35oZHmsC3uAFoeNe0",
@@ -50,8 +50,11 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 
-export const PhoneNumberSignIn = async (phoneNumber: string, appVerifier: RecaptchaVerifier) => {
-	return await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+export const PhoneNumberSignIn = async (
+	phoneNumber: string,
+	appVerifier: RecaptchaVerifier
+) => {
+	return await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
 };
 
 export const signInWithGooglePopup = () =>
@@ -62,7 +65,10 @@ export const signInWithGoogleRedirect = () =>
 
 export const db = getFirestore();
 
-export const addSingleDocument = async (collectionKey: string, object: { id: string }) => {
+export const addSingleDocument = async (
+	collectionKey: string,
+	object: { id: string }
+) => {
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
 
@@ -108,11 +114,14 @@ export const getUsers = async () => {
 	const q = query(collectionRef);
 	const querySnapshot = await getDocs(q);
 
-	const users: User[] = querySnapshot.docs.reduce((acc: User[], docSnapshot) => {
-		acc.push(docSnapshot.data());
+	const users: User[] = querySnapshot.docs.reduce(
+		(acc: User[], docSnapshot) => {
+			acc.push(docSnapshot.data());
 
-		return acc;
-	}, []);
+			return acc;
+		},
+		[]
+	);
 
 	return users;
 };
@@ -123,10 +132,9 @@ export const getBookedDates = async () => {
 	const querySnapshot = await getDocs(q);
 
 	const dates: string[] = querySnapshot.docs.reduce((acc, docSnapshot) => {
-		docSnapshot.data().bookings.forEach(element => {
+		docSnapshot.data().bookings.forEach((element) => {
 			acc.push(...element.chosenDays);
 		});
-		
 
 		return acc;
 	}, []);
@@ -163,8 +171,7 @@ export const getUserByUid = async (uid: string) => {
 };
 
 interface phoneUser extends User {
-
-	uid?: string,
+	uid?: string;
 }
 export const createSimpleUserDocumentFromAuth = async (
 	userAuth: phoneUser,
@@ -192,14 +199,13 @@ export const createSimpleUserDocumentFromAuth = async (
 			console.log("error creating the user", error.message);
 		}
 	}
-	
-	
+
 	return await getUserByUid(userDocRef.id);
 };
 interface UserDocumentType extends Auth {
-	displayName: string,
-	email: string,
-	uid: string
+	displayName: string;
+	email: string;
+	uid: string;
 }
 export const createUserDocumentFromAuth = async (
 	userAuth: UserDocumentType,
@@ -231,13 +237,19 @@ export const createUserDocumentFromAuth = async (
 	return userDocRef;
 };
 
-export const createAuthUserWithEmailAndPassword = async (email: string, password: string) => {
+export const createAuthUserWithEmailAndPassword = async (
+	email: string,
+	password: string
+) => {
 	if (!email || !password) return;
 
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const signInAuthUserWithEmailAndPassword = async (email: string, password: string) => {
+export const signInAuthUserWithEmailAndPassword = async (
+	email: string,
+	password: string
+) => {
 	if (!email || !password) return;
 
 	return await signInWithEmailAndPassword(auth, email, password);
@@ -256,10 +268,11 @@ export const onAuthStateChangedListener = (callback: (arg: any) => void) =>
 
 const storage = getStorage(firebaseApp);
 
-
-
-
-export const updateDocumentInfo = async (collectionKey: string, object: object, documentName: string) => {
+export const updateDocumentInfo = async (
+	collectionKey: string,
+	object: object,
+	documentName: string
+) => {
 	const collectionRef = collection(db, collectionKey);
 	const batch = writeBatch(db);
 
@@ -269,10 +282,9 @@ export const updateDocumentInfo = async (collectionKey: string, object: object, 
 	await batch.commit();
 };
 
-export const formatErrorMessage = (error: any) => error.message
-	.substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")"))
-	.replace("-", " ")
-	.replace("auth", "")
-	.replace("/", "");
-
-
+export const formatErrorMessage = (error: any) =>
+	error.message
+		.substring(error.message.indexOf("(") + 1, error.message.lastIndexOf(")"))
+		.replace("-", " ")
+		.replace("auth", "")
+		.replace("/", "");

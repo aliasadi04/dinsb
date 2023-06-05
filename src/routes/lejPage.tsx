@@ -27,7 +27,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { useSelector } from "react-redux";
 import { selectAllUsers, selectCurrentUser } from "../store/user/user.selector";
-import User from "../utils/types/user.type";
+import { User } from "../utils/types/user.type";
 import {
 	ConfirmationResult,
 	RecaptchaVerifier,
