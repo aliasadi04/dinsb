@@ -76,7 +76,7 @@ const Home = () => {
 
 
 
-                <Carousel sx={{ minWidth: 400, width: '50%', justifyContent: 'start', display: 'flex', flexDirection: 'column-reverse', alignItems: 'space-between', minHeight: 400, }}
+                <Carousel sx={{ width: {xs:'100%',md:'50%',lg:'30%'}, justifyContent: 'start', display: 'flex', flexDirection: 'column-reverse', alignItems: 'space-between', minHeight: 400, }}
                     next={(next, active) => { setCarouselIndex(next); }}
                     prev={(prev, active) => { setCarouselIndex(prev); }}
                     autoPlay={false}
@@ -148,7 +148,7 @@ const Home = () => {
 
                 <FlexBreak m={5} />
                 <Box sx={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'center',transition:'all',transitionDuration:'1000' }}>
-                    <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, width: 300, mx: 3, height: 550, top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }}}>
+                    <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, width: {xs:'100%',sm:300}, mx: 3, height: 550, top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }}}>
                     <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                         <Typography fontSize={19} color='text.secondary' fontWeight={600}>Mandag - Torsdag</Typography>
                         <Typography variant='h4' fontWeight={600} mb={1}>Dagsleje</Typography>
@@ -163,7 +163,7 @@ const Home = () => {
 
 
                 <Card sx={{
-                    boxShadow: 15, mb: 5, borderRadius: 10, height: 550, width: 300, mx: 3, bgcolor: '#EE7203', top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }
+                    boxShadow: 15, mb: 5, borderRadius: 10, height: 550, width: {xs:'100%',sm:300}, mx: 3, bgcolor: '#EE7203', top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }
                 }}>
                     <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                         <Typography fontSize={19} color='common.white' fontWeight={600}>Fredag - Søndag</Typography>
@@ -179,7 +179,7 @@ const Home = () => {
                 </Card>
 
 
-                <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, height: 550, width: 300, mx: 3, top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }}}>
+                <Card sx={{ boxShadow: 5, mb: 5, borderRadius: 10, height: 550, width: {xs:'100%',sm:300}, mx: 3, top: 0, position: 'relative',transition: 'top ease 0.5s',":hover": { sx:null,md:{top: '-40px' } }}}>
                     <CardContent sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-around', height: 500 }}>
                         <Typography fontSize={19} color='text.secondary' fontWeight={600}>Fredag - Søndag</Typography>
                         <Typography variant='h4' fontWeight={600} mb={1}>Dagslej</Typography>

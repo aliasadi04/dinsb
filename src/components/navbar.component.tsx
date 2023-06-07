@@ -174,7 +174,7 @@ const Navbar = () => {
       }} >
 
 
-        <Typography noWrap fontSize={{ xs: 20, md: 40, lg: 60 }} fontWeight={900} sx={{}} >
+        <Typography noWrap fontSize={{ xs: 15,sm:20, md: 40, lg: 60 }} fontWeight={900} sx={{}} >
           Brug for fed lyd til din næste fest?
         </Typography>
 
