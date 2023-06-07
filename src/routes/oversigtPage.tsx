@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Paper,
 	Table,
 	TableBody,
@@ -13,6 +14,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../store/user/user.selector";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 const tableHeaderStyles = {
 	borderRight: "3px solid  white",
@@ -30,9 +32,10 @@ const tableCellStyle = {
 	textAlign: "center",
 };
 
-const RecieptPage = () => {
+const OversigtPage = () => {
 	const currentUser = useSelector(selectCurrentUser);
-
+	const navigate=useNavigate();
+	
 
 	return (
 		<Box
@@ -44,6 +47,7 @@ const RecieptPage = () => {
 				alignItems: "center",
 			}}
 		>
+			
 			<Typography
 				variant="h2"
 				fontWeight={600}
@@ -106,4 +110,4 @@ const RecieptPage = () => {
 	);
 };
 
-export default RecieptPage;
+export default OversigtPage;
