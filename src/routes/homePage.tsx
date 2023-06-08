@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Paper, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import BasicCard from "../components/basicCard.component";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
@@ -33,17 +33,19 @@ const HvorforVælgeOsArray = [
 ];
 
 const Home = () => {
+	const posterRef = useRef(null);
 	const [carouselIndex, setCarouselIndex] = useState(0);
 
 	const carouselNextIndex = (carouselIndex + 1) % 3;
 	const carouselPrevIndex = carouselIndex == 0 ? 2 : (carouselIndex - 1) % 3;
-
+    
+    
 	return (
 		<>
 			<Paper
 				sx={{
 					display: "flex",
-					gap: 2,
+					
 					flexFlow: "row wrap",
 					height: "100%",
 					margin: 0,
@@ -53,78 +55,93 @@ const Home = () => {
 					boxShadow: "none",
 				}}
 			>
-				<Box sx={{ display: { xs: "block", md: "none" }, mb: 2 }}>
-					<img alt="Soundboks poster" src={homePoster} />
+				<Box ref={posterRef}>
+					<Box sx={{ display: { xs: "block", md: "none" } }}>
+						<img alt="Soundboks poster" src={homePoster} />
+					</Box>
+
+					<Box
+						sx={{
+							display: { xs: "none", md: "flex" },
+							justifyContent: "center",
+
+							flexDirection: "row-reverse",
+							pl: { sx: 0, lg: 6 },
+						
+						}}
+					>
+						<Box
+							sx={{
+								display: "grid",
+								width: "40%",
+								minWidth: 500,
+
+								alignItems: "center",
+								justifyContent: "center",
+								marginRight: 1,
+							}}
+						>
+							<Typography
+								// fontSize={{ xs: 35, md: 80 }}
+								fontWeight={700}
+								variant="h1"
+							>
+								Lej En Soundboks For Kun 199kr
+							</Typography>
+							<Typography
+								alignSelf={"start"}
+								justifySelf={"start"}
+								fontWeight={400}
+								variant="h4"
+							>
+								Vi udlejer soundbokse til din næste fest i hele storkøbenhavn
+							</Typography>
+						</Box>
+
+						<Box
+							sx={{
+								transition: "scale ease 0.5s",
+								
+								":hover": {
+									scale: "105%",
+								},
+								
+							}}
+						>
+							<img alt="Soundboks gen 3" src={soundbImage} />
+						</Box>
+					</Box>
 				</Box>
 
+                            <FlexBreak m={100}/>
 				<Box
 					sx={{
-						display: { xs: "none", md: "flex" },
-						justifyContent: "center",
-						pl: 6,
+						objectFit: "fill",
+						position: "absolute",
+						minWidth: "1200px",
+
+						top: `${posterRef.current.clientHeight+200}px`,
+					
 					}}
 				>
-					<Box
-						sx={{
-							display: "grid",
-							width: "40%",
-							minWidth: 300,
-							marginLeft: 1,
-							alignItems: "center",
-							justifyContent: "center",
+					<img
+						src={Shape}
+						alt="shape"
+						style={{
+							width: "100%",
+							height: "100%",
 						}}
-					>
-						<Typography
-							// fontSize={{ xs: 35, md: 80 }}
-							fontWeight={700}
-							variant="h1"
-						>
-							Lej En Soundboks For Kun 199kr
-						</Typography>
-						<Typography
-							alignSelf={"start"}
-							justifySelf={"start"}
-							fontWeight={400}
-							variant="h4"
-						>
-							Vi udlejer soundbokse til din næste fest i hele storkøbenhavn
-						</Typography>
-					</Box>
-
-					<Box
-						sx={{
-							transition: "scale ease 0.5s",
-
-							":hover": {
-								scale: "105%",
-							},
-						}}
-					>
-						<img alt="Soundboks gen 3" src={soundbImage} />
-					</Box>
+					/>
 				</Box>
 
-				<img
-					src={Shape}
-					alt="shape"
-					style={{
-					
-                        scale:'150%',
-						position: "absolute",
-						width: "600",
-                        
-
-						top:'100%',
-					}}
-				/>
-
+                
 				<Typography
 					id="hvorfor"
 					fontWeight={700}
 					fontSize={{ xs: 40, md: 40 }}
 					sx={{
 						display: "flex",
-                        mt:30,
+
 						width: "100%",
 						textAlign: "center",
 						alignItems: "center",
@@ -145,6 +162,7 @@ const Home = () => {
 						alignItems: "space-between",
 						minHeight: 400,
 						zIndex: 2,
+						mb: 30,
 					}}
 					next={(next, active) => {
 						setCarouselIndex(next);
