@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Paper, Typography } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import BasicCard from "../components/basicCard.component";
 import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
@@ -35,17 +35,21 @@ const HvorforVælgeOsArray = [
 const Home = () => {
 	const posterRef = useRef(null);
 	const [carouselIndex, setCarouselIndex] = useState(0);
-
+	const [top, setTop] = useState(10000);
 	const carouselNextIndex = (carouselIndex + 1) % 3;
 	const carouselPrevIndex = carouselIndex == 0 ? 2 : (carouselIndex - 1) % 3;
     
-    
+	useEffect(() => {
+		if (!posterRef.current) return;
+		setTop(posterRef.current.clientHeight + 200);
+	}, [window.innerWidth]);
+
 	return (
 		<>
 			<Paper
 				sx={{
 					display: "flex",
-					
+
 					flexFlow: "row wrap",
 					height: "100%",
 					margin: 0,
@@ -67,7 +71,6 @@ const Home = () => {
 
 							flexDirection: "row-reverse",
 							pl: { sx: 0, lg: 6 },
-						
 						}}
 					>
 						<Box
@@ -101,11 +104,10 @@ const Home = () => {
 						<Box
 							sx={{
 								transition: "scale ease 0.5s",
-								
+
 								":hover": {
 									scale: "105%",
 								},
-								
 							}}
 						>
 							<img alt="Soundboks gen 3" src={soundbImage} />
@@ -113,18 +115,18 @@ const Home = () => {
 					</Box>
 				</Box>
 
-                            <FlexBreak m={100}/>
+				<FlexBreak m={100} />
 				<Box
 					sx={{
 						objectFit: "fill",
 						position: "absolute",
 						minWidth: "1200px",
 
-						top: `${posterRef.current.clientHeight+200}px`,
-					
+						top: `${top}px`,
 					}}
 				>
 					<img
+                        key={top}
 						src={Shape}
 						alt="shape"
 						style={{
@@ -134,7 +136,6 @@ const Home = () => {
 					/>
 				</Box>
 
-                
 				<Typography
 					id="hvorfor"
 					fontWeight={700}
