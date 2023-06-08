@@ -33,17 +33,20 @@ const HvorforVælgeOsArray = [
 ];
 
 const Home = () => {
-	const posterRef = useRef(null);
+
 	const [carouselIndex, setCarouselIndex] = useState(0);
-	const [top, setTop] = useState(10000);
+    // const [top,setTop]=useState(1000);
 	const carouselNextIndex = (carouselIndex + 1) % 3;
 	const carouselPrevIndex = carouselIndex == 0 ? 2 : (carouselIndex - 1) % 3;
+    // console.log(window.innerWidth);
     
-	useEffect(() => {
-		if (!posterRef.current) return;
-		setTop(posterRef.current.clientHeight + 200);
-	}, [window.innerWidth]);
-
+ 
+    // useEffect(()=>{
+    //     document.addEventListener(,()=>{setTop(window.)});
+    //     return()
+    // },[])
+ 
+    
 	return (
 		<>
 			<Paper
@@ -59,7 +62,7 @@ const Home = () => {
 					boxShadow: "none",
 				}}
 			>
-				<Box ref={posterRef}>
+				<Box>
 					<Box sx={{ display: { xs: "block", md: "none" } }}>
 						<img alt="Soundboks poster" src={homePoster} />
 					</Box>
@@ -116,17 +119,19 @@ const Home = () => {
 				</Box>
 
 				<FlexBreak m={100} />
-				<Box
+
+              
+				<Box key={window.innerWidth}
 					sx={{
 						objectFit: "fill",
 						position: "absolute",
 						minWidth: "1200px",
 
-						top: `${top}px`,
+						top: {xs:`${window.innerWidth*1.25+200}px`,md:'609px'},
 					}}
 				>
 					<img
-                        key={top}
+                    
 						src={Shape}
 						alt="shape"
 						style={{
