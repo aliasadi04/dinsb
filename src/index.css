@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap');
 
-
+*{
+  
+/* background-color: rgba(0, 0, 0, .25); */
+}
 
 body {
   overflow-x: hidden;
@@ -13,8 +16,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 img {
-  max-width: 100%;
-  height: auto;
+
+
   padding: 0;
   margin: 0;
 }

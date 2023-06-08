@@ -63,15 +63,16 @@ const Home = () => {
 				}}
 			>
 				<Box>
-					<Box sx={{ display: { xs: "block", md: "none" } }}>
-						<img alt="Soundboks poster" src={homePoster} />
+					<Box sx={{ display: { xs: "block", md: "none" },maxWidth:'100%',height:'auto' }}>
+						<img alt="Soundboks poster" src={homePoster} style={{width:'100%',height:'100%'}}/>
 					</Box>
 
 					<Box
 						sx={{
 							display: { xs: "none", md: "flex" },
 							justifyContent: "center",
-
+							maxWidth:'100%',
+							
 							flexDirection: "row-reverse",
 							pl: { sx: 0, lg: 6 },
 						}}
@@ -107,13 +108,15 @@ const Home = () => {
 						<Box
 							sx={{
 								transition: "scale ease 0.5s",
-
+								maxHeight:'609px',
+								objectFit:'fill',
+								width:'auto',
 								":hover": {
 									scale: "105%",
 								},
 							}}
 						>
-							<img alt="Soundboks gen 3" src={soundbImage} />
+							<img alt="Soundboks gen 3" src={soundbImage} width={'auto'} />
 						</Box>
 					</Box>
 				</Box>
@@ -123,11 +126,16 @@ const Home = () => {
               
 				<Box key={window.innerWidth}
 					sx={{
-						objectFit: "fill",
-						position: "absolute",
-						minWidth: "1200px",
+						objectFit: "none",
+						display:'grid',
 
-						top: {xs:`${window.innerWidth*1.25+200}px`,md:'609px'},
+						position: "absolute",
+						overflow:'hidden',
+						maxWidth:'100%',
+						placeItems:'center',
+						justifyContent:'center',
+						
+						top: {xs:`${window.innerWidth*1.25+200}px`,md:'809px'},
 					}}
 				>
 					<img
@@ -135,8 +143,8 @@ const Home = () => {
 						src={Shape}
 						alt="shape"
 						style={{
-							width: "100%",
-							height: "100%",
+							width: "1200px",
+							
 						}}
 					/>
 				</Box>
