@@ -278,7 +278,7 @@ const Home = () => {
 							top: 0,
 							position: "relative",
 							transition: "top ease 0.5s",
-							":hover": { sx: null, md: { top: "-40px" } },
+							":hover": { sx: null, md: { top: "-20px" } },
 						}}
 					>
 						<CardContent
@@ -345,7 +345,7 @@ const Home = () => {
 							top: 0,
 							position: "relative",
 							transition: "top ease 0.5s",
-							":hover": { sx: null, md: { top: "-40px" } },
+							":hover": { sx: null, md: { top: "-20px" } },
 						}}
 					>
 						<CardContent
@@ -418,7 +418,7 @@ const Home = () => {
 							top: 0,
 							position: "relative",
 							transition: "top ease 0.5s",
-							":hover": { sx: null, md: { top: "-40px" } },
+							":hover": { sx: null, md: { top: "-20px" } },
 						}}
 					>
 						<CardContent
