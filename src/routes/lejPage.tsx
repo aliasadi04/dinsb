@@ -246,7 +246,7 @@ const Lej = () => {
 
 			const daysBetween = daysDifference - weekendsBetween;
 
-			const pris = daysBetween * 199 + weekendsBetween * 399;
+			const pris = daysBetween * 199 + weekendsBetween * 299;
 
 			let chosenDays: string[] = [];
 			let startingDate = startDate.clone();
