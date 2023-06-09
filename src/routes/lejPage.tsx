@@ -40,6 +40,7 @@ import { LoadingButton } from "@mui/lab";
 import { HashLink } from "react-router-hash-link";
 import { useNavigate } from "react-router-dom";
 import "./lejPage.css";
+import { weekendslejepris } from "./homePage";
 // const client = require('twilio')(
 //   process.env.TWILIO_ACCOUNT_SID,
 //   process.env.TWILIO_AUTH_TOKEN
@@ -75,6 +76,7 @@ const Lej = () => {
 		endDate: Moment | null;
 		daysInterval?: number;
 		pris?: number;
+		weekendsBetween?: number;
 		chosenDays: string[];
 	}>({
 		pris: 0,
@@ -83,7 +85,7 @@ const Lej = () => {
 		endDate: null,
 		daysInterval: 0,
 	});
-	const { pris, chosenDays, startDate, endDate, daysInterval } = dateData;
+	const { pris, chosenDays, startDate, endDate, daysInterval,weekendsBetween } = dateData;
 	const [inputPhoneNumber, setInputPhoneNumber] = useState("");
 
 	const [confirmationObject, setConfirmationObject] =
@@ -261,6 +263,7 @@ const Lej = () => {
 				pris: pris,
 				daysInterval: daysDifference,
 				chosenDays: chosenDays,
+				weekendsBetween:weekendsBetween,
 			});
 		} else {
 			setDateData({
@@ -382,6 +385,8 @@ const Lej = () => {
 				{pris > 0 && (
 					<HashLink to="/#priser">Hvordan beregnes prisen?</HashLink>
 				)}
+				{weekendsBetween>0 && 
+					<Typography mt={2} color={'green'} fontStyle={'italic'} fontSize={{xs:15,md:20}} >Hvis du vil leje soundboksen for hele weekenden for kun 399 kr. bedes du at kontakte os direkte</Typography>}
 			</Box>
 
 			{startDate && endDate && (
