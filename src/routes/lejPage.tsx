@@ -108,7 +108,9 @@ const Lej = () => {
 		setOpenPhoneDialog(true);
 	};
 
-	const handleClosePhoneDialog = () => {
+	const handleClosePhoneDialog = (reason: string) => {
+		if (reason == 'escapeKeyDown') return
+		if (reason == 'backdropClick') return
 		setOpenPhoneDialog(false);
 	};
 
@@ -119,9 +121,10 @@ const Lej = () => {
 				{
 					size: "invisible",
 					callback: (response: any) => {
-						submitHandler();
+						window.recaptchaVerifier.clear();
 					},
 					"expired-callback": () => { window.recaptchaVerifier.clear(); onCaptchaVerify(); },
+
 				},
 				auth
 			);
@@ -180,7 +183,7 @@ const Lej = () => {
 	const dialogSubmitHandler = async () => {
 		setError("");
 		if (confirmationObject) {
-			handleClosePhoneDialog();
+			handleClosePhoneDialog('button');
 			try {
 				const response = await confirmationObject.confirm(input);
 
@@ -285,7 +288,7 @@ const Lej = () => {
 				minHeight: 1000,
 				pb: 100,
 				ml: 1,
-				justifyContent: startDate && endDate ? "space-around" : "center",
+				justifyContent: 'center',
 				px: { s: 0, md: 10 },
 			}}
 		>
@@ -294,7 +297,7 @@ const Lej = () => {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					maxWidth: "40%",
+					maxWidth: { xs: '70%', md: "40%" },
 					transition: "right 2s",
 					minWidth: "400px",
 					textAlign: "center",
@@ -393,12 +396,13 @@ const Lej = () => {
 			</Box>
 
 			{startDate && endDate && (
-				<Fade in={startDate ? (endDate ? true : false) : false}>
+				<Fade in={startDate ? (endDate ? true : false) : false} style={{}}>
 					<Box
 						sx={{
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
+							justifyContent: 'center',
 						}}
 					>
 						<Typography variant="h4" mb={5}>
@@ -429,9 +433,9 @@ const Lej = () => {
 
 			{/* <Button onClick={testClick} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Test</Button> */}
 
-			<Dialog open={openPhoneDialog} onClose={handleClosePhoneDialog} >
+			<Dialog open={openPhoneDialog} onClose={(e, reason) => handleClosePhoneDialog(reason)} >
 				<DialogTitle>Bekræft sms-kode</DialogTitle>
-				<DialogContent sx={{ borderRadius: 5 }}>
+				<DialogContent sx={{ borderRadius: 10 }}>
 					<DialogContentText>
 						Skriv koden modtaget på SMS for at gå videre med lej af soundboks.
 					</DialogContentText>
@@ -447,11 +451,11 @@ const Lej = () => {
 						value={input}
 						autoComplete="off"
 						onChange={(e) => setInput(e.target.value)}
-						
+
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClosePhoneDialog}>Gå tilbage</Button>
+					<Button onClick={() => handleClosePhoneDialog('button')}>Annuler</Button>
 					<Button onClick={dialogSubmitHandler}>Bekræft</Button>
 				</DialogActions>
 			</Dialog>
