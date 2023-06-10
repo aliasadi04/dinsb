@@ -121,7 +121,7 @@ const Lej = () => {
 					callback: (response: any) => {
 						submitHandler();
 					},
-					"expired-callback": () => { },
+					"expired-callback": () => { window.recaptchaVerifier.clear(); onCaptchaVerify(); },
 				},
 				auth
 			);
@@ -447,11 +447,7 @@ const Lej = () => {
 						value={input}
 						autoComplete="off"
 						onChange={(e) => setInput(e.target.value)}
-						sx={{
-							"::-webkit-progress-inner-value": {
-								"-webkit-appearance": "none",
-							},
-						}}
+						
 					/>
 				</DialogContent>
 				<DialogActions>
