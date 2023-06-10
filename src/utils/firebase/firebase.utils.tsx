@@ -57,6 +57,7 @@ export const PhoneNumberSignIn = async (
 	return await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
 };
 
+
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
 

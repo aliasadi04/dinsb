@@ -85,11 +85,12 @@ const Lej = () => {
 		endDate: null,
 		daysInterval: 0,
 	});
-	const { pris, chosenDays, startDate, endDate, daysInterval,weekendsBetween } = dateData;
+	const { pris, chosenDays, startDate, endDate, daysInterval, weekendsBetween } = dateData;
 	const [inputPhoneNumber, setInputPhoneNumber] = useState("");
 
 	const [confirmationObject, setConfirmationObject] =
 		useState<ConfirmationResult | null>(null);
+
 	const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
 	const [input, setInput] = useState("");
 	// const [verifier, setVerifier] = useState<RecaptchaVerifier>(null);
@@ -120,7 +121,7 @@ const Lej = () => {
 					callback: (response: any) => {
 						submitHandler();
 					},
-					"expired-callback": () => {},
+					"expired-callback": () => { },
 				},
 				auth
 			);
@@ -170,6 +171,7 @@ const Lej = () => {
 					setLoading(false);
 				});
 		} else {
+
 			setError("Ugyldigt telefonnummer");
 			setLoading(false);
 		}
@@ -199,9 +201,9 @@ const Lej = () => {
 									bookings:
 										currentUser && currentUser.bookings
 											? [
-													...currentUser.bookings,
-													{ pris, daysInterval, chosenDays },
-											  ]
+												...currentUser.bookings,
+												{ pris, daysInterval, chosenDays },
+											]
 											: [{ pris, daysInterval, chosenDays }],
 								},
 								response.user.uid
@@ -210,6 +212,7 @@ const Lej = () => {
 							navigate("../reciept");
 							// alert('Booking gennemført!');
 						} catch (error) {
+							console.log(error);
 							setError(formatErrorMessage(error));
 							setLoading(false);
 						}
@@ -219,6 +222,7 @@ const Lej = () => {
 					}
 				}
 			} catch (error) {
+				console.log(error);
 				setError("Forkerte kode!");
 				setLoading(false);
 			}
@@ -263,7 +267,7 @@ const Lej = () => {
 				pris: pris,
 				daysInterval: daysDifference,
 				chosenDays: chosenDays,
-				weekendsBetween:weekendsBetween,
+				weekendsBetween: weekendsBetween,
 			});
 		} else {
 			setDateData({
@@ -361,9 +365,8 @@ const Lej = () => {
 				>
 					{daysInterval !== 0
 						? daysInterval > 0
-							? `Lejeperiode : ${daysInterval} ${
-									daysInterval > 1 ? "dage" : "dag"
-							  }`
+							? `Lejeperiode : ${daysInterval} ${daysInterval > 1 ? "dage" : "dag"
+							}`
 							: "slut dato kan ikke være før start dato!"
 						: "Vælg venligst en start og en slut dato"}
 				</Typography>
@@ -385,8 +388,8 @@ const Lej = () => {
 				{pris > 0 && (
 					<HashLink to="/#priser">Hvordan beregnes prisen?</HashLink>
 				)}
-				{weekendsBetween>0 && 
-					<Typography mt={2} color={'green'} fontStyle={'italic'} fontSize={{xs:15,md:20}} >Hvis du vil leje soundboksen for hele weekenden for kun 399 kr. bedes du at kontakte os direkte</Typography>}
+				{weekendsBetween > 0 &&
+					<Typography mt={2} color={'green'} fontStyle={'italic'} fontSize={{ xs: 15, md: 20 }} >Hvis du vil leje soundboksen for hele weekenden for kun 399 kr. bedes du at kontakte os direkte</Typography>}
 			</Box>
 
 			{startDate && endDate && (
@@ -426,9 +429,9 @@ const Lej = () => {
 
 			{/* <Button onClick={testClick} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Test</Button> */}
 
-			<Dialog open={openPhoneDialog} onClose={handleClosePhoneDialog}>
+			<Dialog open={openPhoneDialog} onClose={handleClosePhoneDialog} >
 				<DialogTitle>Bekræft sms-kode</DialogTitle>
-				<DialogContent>
+				<DialogContent sx={{ borderRadius: 5 }}>
 					<DialogContentText>
 						Skriv koden modtaget på SMS for at gå videre med lej af soundboks.
 					</DialogContentText>
