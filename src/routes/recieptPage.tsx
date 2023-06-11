@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Paper,
 	Table,
 	TableBody,
@@ -13,6 +14,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../store/user/user.selector";
 import moment from "moment";
+import { Booking } from "../utils/types/user.type";
+import { signOutUser } from "../utils/firebase/firebase.utils";
 
 const tableHeaderStyles = {
 	borderRight: "3px solid  white",
@@ -76,9 +79,9 @@ const RecieptPage = () => {
 								</TableRow>
 							</TableHead>
 
-							<TableBody>
-								{currentUser.bookings.map((booking, index) => (
-									<TableRow>
+							<TableBody key={currentUser.createdAt}>
+								{currentUser.bookings.map((booking:Booking, index) => (
+									<TableRow key={booking.chosenDays.join("")}>
 										<TableCell sx={tableCellStyle}>{index + 1}</TableCell>
 										<TableCell sx={tableCellStyle}>
 											{booking.daysInterval}
@@ -102,6 +105,7 @@ const RecieptPage = () => {
 				Passer prisen ikke? Vil du have levering? Kontakt os på +45 23 43 84 33,
 				så kan vi hjælpe dig hen ad vejen!
 			</Typography>
+			<Button onClick={()=>signOutUser()}>logout</Button>
 		</Box>
 	);
 };

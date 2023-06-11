@@ -12,7 +12,7 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment, { Moment } from "moment";
 import {
@@ -71,6 +71,7 @@ const Lej = () => {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState("");
+	const recaptchaWrapperRef = useRef(null);
 	const [dateData, setDateData] = useState<{
 		startDate: Moment | null;
 		endDate: Moment | null;
@@ -85,9 +86,18 @@ const Lej = () => {
 		endDate: null,
 		daysInterval: 0,
 	});
-	const { pris, chosenDays, startDate, endDate, daysInterval,weekendsBetween } = dateData;
+	const {
+		pris,
+		chosenDays,
+		startDate,
+		endDate,
+		daysInterval,
+		weekendsBetween,
+	} = dateData;
 	const [inputPhoneNumber, setInputPhoneNumber] = useState("");
-
+	const [captchaState, setCaptchaState] = useState<
+		RecaptchaVerifier | null
+	>(null);
 	const [confirmationObject, setConfirmationObject] =
 		useState<ConfirmationResult | null>(null);
 	const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
@@ -110,7 +120,6 @@ const Lej = () => {
 	const handleClosePhoneDialog = () => {
 		setOpenPhoneDialog(false);
 	};
-
 	const onCaptchaVerify = () => {
 		if (!window.recaptchaVerifier) {
 			return new RecaptchaVerifier(
@@ -128,6 +137,9 @@ const Lej = () => {
 			return window.recaptchaVerifier;
 		}
 	};
+	useEffect(() => {
+		setCaptchaState(onCaptchaVerify());
+	}, []);
 
 	// const testClick = () => {
 	//   client.messages
@@ -146,7 +158,7 @@ const Lej = () => {
 	const submitHandler = async () => {
 		setError("");
 
-		const appVerifier = onCaptchaVerify();
+		const appVerifier = captchaState;
 		setLoading(true);
 
 		var phoneNumber: string = inputPhoneNumber;
@@ -159,7 +171,7 @@ const Lej = () => {
 
 		if (validator.isMobilePhone(phoneNumber, "da-DK")) {
 			setInputPhoneNumber("");
-
+			if (appVerifier == null) return;
 			PhoneNumberSignIn(phoneNumber, appVerifier)
 				.then((res) => {
 					setConfirmationObject(res);
@@ -167,64 +179,71 @@ const Lej = () => {
 				})
 				.catch((error) => {
 					setError(formatErrorMessage(error));
+					console.log(error);
+
 					setLoading(false);
 				});
 		} else {
 			setError("Ugyldigt telefonnummer");
 			setLoading(false);
 		}
+		
 	};
 
 	const dialogSubmitHandler = async () => {
 		setError("");
+		setLoading(true);
 		if (confirmationObject) {
 			handleClosePhoneDialog();
-			try {
-				const response = await confirmationObject.confirm(input);
 
-				// if (response.user.phoneNumber) {
-				//   createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
-				//     .then(res => console.log(res))
-				//     .catch((error) => console.log(error));
-				// }
+			confirmationObject
+				.confirm(input)
+				.then((response) => {
+					// if (response.user.phoneNumber) {
+					//   createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
+					//     .then(res => console.log(res))
+					//     .catch((error) => console.log(error));
+					// }
 
-				if (currentUser) {
-					const allBookedDates = await getBookedDates();
-
-					if (!arraysOverlap(allBookedDates, chosenDays)) {
-						try {
-							const setBookingResponse = await updateDocumentInfo(
-								"users",
-								{
-									bookings:
-										currentUser && currentUser.bookings
-											? [
-													...currentUser.bookings,
-													{ pris, daysInterval, chosenDays },
-											  ]
-											: [{ pris, daysInterval, chosenDays }],
-								},
-								response.user.uid
-							);
-
-							navigate("../reciept");
-							// alert('Booking gennemført!');
-						} catch (error) {
-							setError(formatErrorMessage(error));
-							setLoading(false);
-						}
+					if (currentUser) {
+						getBookedDates()
+							.then((allBookedDates) => {
+								if (!arraysOverlap(allBookedDates, chosenDays)) {
+									updateDocumentInfo(
+										"users",
+										{
+											bookings: currentUser.bookings
+												? [
+														...currentUser.bookings,
+														{ pris, daysInterval, chosenDays },
+												  ]
+												: [{ pris, daysInterval, chosenDays }],
+										},
+										response.user.uid
+									).then((res) => navigate("../reciept"));
+								} else {
+									setError("De valgte datoer er ikke længere tilgængelige! ");
+									setLoading(false);
+								}
+							})
+							.catch((error) => {
+								setError(formatErrorMessage(error));
+								console.log(error);
+								setLoading(false);
+							});
 					} else {
-						setError("De valgte datoer er ikke længere tilgængelige! ");
-						setLoading(false);
+						console.log("BIG ERROR");
 					}
-				}
-			} catch (error) {
-				setError("Forkerte kode!");
-				setLoading(false);
-			}
-		}
-		setInput("");
+				})
+				.catch((error) => {
+					setError("Forkerte kode!");
+					console.log(error);
 
+					setLoading(false);
+				});
+
+			setInput("");
+		}
 		// createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
 	};
 
@@ -263,7 +282,7 @@ const Lej = () => {
 				pris: pris,
 				daysInterval: daysDifference,
 				chosenDays: chosenDays,
-				weekendsBetween:weekendsBetween,
+				weekendsBetween: weekendsBetween,
 			});
 		} else {
 			setDateData({
@@ -385,8 +404,17 @@ const Lej = () => {
 				{pris > 0 && (
 					<HashLink to="/#priser">Hvordan beregnes prisen?</HashLink>
 				)}
-				{weekendsBetween>0 && 
-					<Typography mt={2} color={'green'} fontStyle={'italic'} fontSize={{xs:15,md:20}} >Hvis du vil leje soundboksen for hele weekenden for kun 399 kr. bedes du at kontakte os direkte</Typography>}
+				{weekendsBetween > 0 && (
+					<Typography
+						mt={2}
+						color={"green"}
+						fontStyle={"italic"}
+						fontSize={{ xs: 15, md: 20 }}
+					>
+						Hvis du vil leje soundboksen for hele weekenden for kun 399 kr.
+						bedes du at kontakte os direkte
+					</Typography>
+				)}
 			</Box>
 
 			{startDate && endDate && (
@@ -457,7 +485,10 @@ const Lej = () => {
 				</DialogActions>
 			</Dialog>
 			{/* <Button onClick={testClick} >send message</Button> */}
-			<div id="recaptcha-container"></div>
+			<div id="recaptcha-container" ref={recaptchaWrapperRef}></div>
+			<Button onClick={() => window.recaptchaVerifier.type()}>
+				RESET CAPTCHA
+			</Button>
 		</Box>
 	);
 };
