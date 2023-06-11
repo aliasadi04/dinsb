@@ -86,20 +86,14 @@ const Lej = () => {
 		endDate: null,
 		daysInterval: 0,
 	});
-	const {
-		pris,
-		chosenDays,
-		startDate,
-		endDate,
-		daysInterval,
-		weekendsBetween,
-	} = dateData;
+	const { pris, chosenDays, startDate, endDate, daysInterval, weekendsBetween } = dateData;
 	const [inputPhoneNumber, setInputPhoneNumber] = useState("");
 	const [captchaState, setCaptchaState] = useState<
 		RecaptchaVerifier | null
 	>(null);
 	const [confirmationObject, setConfirmationObject] =
 		useState<ConfirmationResult | null>(null);
+
 	const [openPhoneDialog, setOpenPhoneDialog] = React.useState(false);
 	const [input, setInput] = useState("");
 	// const [verifier, setVerifier] = useState<RecaptchaVerifier>(null);
@@ -117,7 +111,9 @@ const Lej = () => {
 		setOpenPhoneDialog(true);
 	};
 
-	const handleClosePhoneDialog = () => {
+	const handleClosePhoneDialog = (reason: string) => {
+		if (reason == 'escapeKeyDown') return
+		if (reason == 'backdropClick') return
 		setOpenPhoneDialog(false);
 	};
 	const onCaptchaVerify = () => {
@@ -127,9 +123,10 @@ const Lej = () => {
 				{
 					size: "invisible",
 					callback: (response: any) => {
-						submitHandler();
+						window.recaptchaVerifier.clear();
 					},
-					"expired-callback": () => {},
+					"expired-callback": () => { window.recaptchaVerifier.clear(); onCaptchaVerify(); },
+
 				},
 				auth
 			);
@@ -184,6 +181,7 @@ const Lej = () => {
 					setLoading(false);
 				});
 		} else {
+
 			setError("Ugyldigt telefonnummer");
 			setLoading(false);
 		}
@@ -194,7 +192,9 @@ const Lej = () => {
 		setError("");
 		setLoading(true);
 		if (confirmationObject) {
-			handleClosePhoneDialog();
+			handleClosePhoneDialog('button');
+			try {
+				const response = await confirmationObject.confirm(input);
 
 			confirmationObject
 				.confirm(input)
@@ -300,7 +300,7 @@ const Lej = () => {
 				minHeight: 1000,
 				pb: 100,
 				ml: 1,
-				justifyContent: startDate && endDate ? "space-around" : "center",
+				justifyContent: 'center',
 				px: { s: 0, md: 10 },
 			}}
 		>
@@ -309,7 +309,7 @@ const Lej = () => {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					maxWidth: "40%",
+					maxWidth: { xs: '70%', md: "40%" },
 					transition: "right 2s",
 					minWidth: "400px",
 					textAlign: "center",
@@ -380,9 +380,8 @@ const Lej = () => {
 				>
 					{daysInterval !== 0
 						? daysInterval > 0
-							? `Lejeperiode : ${daysInterval} ${
-									daysInterval > 1 ? "dage" : "dag"
-							  }`
+							? `Lejeperiode : ${daysInterval} ${daysInterval > 1 ? "dage" : "dag"
+							}`
 							: "slut dato kan ikke være før start dato!"
 						: "Vælg venligst en start og en slut dato"}
 				</Typography>
@@ -418,12 +417,13 @@ const Lej = () => {
 			</Box>
 
 			{startDate && endDate && (
-				<Fade in={startDate ? (endDate ? true : false) : false}>
+				<Fade in={startDate ? (endDate ? true : false) : false} style={{}}>
 					<Box
 						sx={{
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
+							justifyContent: 'center',
 						}}
 					>
 						<Typography variant="h4" mb={5}>
@@ -454,9 +454,9 @@ const Lej = () => {
 
 			{/* <Button onClick={testClick} id='phone-submit-button' variant='contained' sx={{ mb: 100, my: 3 }}>Test</Button> */}
 
-			<Dialog open={openPhoneDialog} onClose={handleClosePhoneDialog}>
+			<Dialog open={openPhoneDialog} onClose={(e, reason) => handleClosePhoneDialog(reason)} >
 				<DialogTitle>Bekræft sms-kode</DialogTitle>
-				<DialogContent>
+				<DialogContent sx={{ borderRadius: 10 }}>
 					<DialogContentText>
 						Skriv koden modtaget på SMS for at gå videre med lej af soundboks.
 					</DialogContentText>
@@ -472,15 +472,11 @@ const Lej = () => {
 						value={input}
 						autoComplete="off"
 						onChange={(e) => setInput(e.target.value)}
-						sx={{
-							"::-webkit-progress-inner-value": {
-								"-webkit-appearance": "none",
-							},
-						}}
+
 					/>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClosePhoneDialog}>Gå tilbage</Button>
+					<Button onClick={() => handleClosePhoneDialog('button')}>Annuler</Button>
 					<Button onClick={dialogSubmitHandler}>Bekræft</Button>
 				</DialogActions>
 			</Dialog>
