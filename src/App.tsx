@@ -21,9 +21,9 @@ import {
 } from "./utils/firebase/firebase.utils";
 import { User } from "./utils/types/user.type";
 import { useDispatch } from "react-redux";
-import { setAllUsers, setCurrentUser } from "./store/user/user.action";
 import RecieptPage from "./routes/recieptPage";
 import OversigtPage from "./routes/oversigtPage";
+import { setAllUsers, setCurrentUser } from "./store/user/user.slice";
 
 // white
 //#FFF8F0
@@ -61,11 +61,11 @@ function App() {
 	const dispatch = useDispatch();
 
 	const setCurrentUserFromFirebase = async (user: User) => {
-		const { createdAt, phoneNumber, bookings } =
-			await createSimpleUserDocumentFromAuth(user, { bookings: [] });
-		// getUserByUid(uid).then(({ createdAt, phoneNumber, bookings }) => {
+		const { createdAt, phoneNumber, booking } =
+			await createSimpleUserDocumentFromAuth(user, { booking: null });
+		// getUserByUid(uid).then(({ createdAt, phoneNumber, booking }) => {
 
-		dispatch(setCurrentUser({ createdAt, phoneNumber, bookings }));
+		dispatch(setCurrentUser({ createdAt, phoneNumber, booking }));
 
 		// })
 	};

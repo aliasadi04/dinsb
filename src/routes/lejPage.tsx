@@ -108,9 +108,8 @@ const Lej = () => {
 	const allUsers = useSelector(selectAllUsers);
 
 	const bookedDates = allUsers.reduce((acc, user) => {
-		user.bookings.forEach((booking) => {
-			acc.push(...booking.chosenDays);
-		});
+			acc.push(...user.booking.chosenDays);
+		
 		return acc;
 	}, []);
 
@@ -204,25 +203,17 @@ const Lej = () => {
 			confirmationObject
 				.confirm(input)
 				.then((response) => {
-					// if (response.user.phoneNumber) {
-					//   createSimpleUserDocumentFromAuth(response.user, { bookings: [] })
-					//     .then(res => console.log(res))
-					//     .catch((error) => console.log(error));
-					// }
-
+				
 					if (currentUser) {
 						getBookedDates()
 							.then((allBookedDates) => {
+								
+								
 								if (!arraysOverlap(allBookedDates, chosenDays)) {
 									updateDocumentInfo(
 										"users",
 										{
-											bookings: currentUser.bookings
-												? [
-														...currentUser.bookings,
-														{ pris, daysInterval, chosenDays },
-												  ]
-												: [{ pris, daysInterval, chosenDays }],
+											booking: { pris, daysInterval, chosenDays }
 										},
 										response.user.uid
 									).then((res) => navigate("../reciept"));
@@ -249,7 +240,6 @@ const Lej = () => {
 
 			setInput("");
 		}
-		// createSimpleUserDocumentFromAuth(response.user, { bookings: [] });
 	};
 
 	const onChangeDate = ({

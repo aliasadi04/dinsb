@@ -65,7 +65,7 @@ const OversigtPage = () => {
 			<Typography variant="h3" mb={1}>
 				Reserverationer
 			</Typography>
-			{currentUser && currentUser.bookings && (
+			{/* {currentUser && currentUser.booking && (
 				<>
 					<TableContainer component={Paper} sx={{ maxWidth: 1000 }}>
 						<Table
@@ -81,7 +81,7 @@ const OversigtPage = () => {
 							</TableHead>
 
 							<TableBody>
-								{currentUser.bookings.map((booking, index) => (
+								{currentUser.booking.map((booking, index) => (
 									<TableRow>
 										<TableCell sx={tableCellStyle}>{index + 1}</TableCell>
 										<TableCell sx={tableCellStyle}>
@@ -101,7 +101,7 @@ const OversigtPage = () => {
 						</Table>
 					</TableContainer>
 				</>
-			)}
+			)} */}
 			<Typography textAlign={"center"} fontStyle={"italic"} my={3} fontSize={{xs:15,md:23}}>
 				Passer prisen ikke? Vil du have levering? Kontakt os på +45 23 43 84 33,
 				så kan vi hjælpe dig hen ad vejen!

@@ -4,7 +4,7 @@ export interface Booking {
 	daysInterval: number;
 }
 export interface User {
-	bookings?: Booking[] | [];
+	booking?: Booking | null;
 	phoneNumber?: string;
 	createdAt?: number;
 }
