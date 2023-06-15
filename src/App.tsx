@@ -60,15 +60,7 @@ interface FirebaseUser extends User {
 function App() {
 	const dispatch = useDispatch();
 
-	const setCurrentUserFromFirebase = async (user: User) => {
-		const { createdAt, phoneNumber, booking } =
-			await createSimpleUserDocumentFromAuth(user, { booking: null });
-		// getUserByUid(uid).then(({ createdAt, phoneNumber, booking }) => {
-
-		dispatch(setCurrentUser({ createdAt, phoneNumber, booking }));
-
-		// })
-	};
+	
 	const setAllUsersFromFirebase = async () => {
 		const allUsersFromFirebase = await getUsers();
 
@@ -79,11 +71,11 @@ function App() {
 		const unsubscribeFromUsersListener = onAuthStateChangedListener(
 			(user: FirebaseUser) => {
 				setAllUsersFromFirebase();
-				if (user) {
-					setCurrentUserFromFirebase(user);
-				} else {
-					dispatch(setCurrentUser({}));
-				}
+				// if (user) {
+				// 	setCurrentUserFromFirebase(user);
+				// } else {
+				// 	dispatch(setCurrentUser({}));
+				// }
 			}
 		);
 		return unsubscribeFromUsersListener;

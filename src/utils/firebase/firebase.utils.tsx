@@ -57,7 +57,6 @@ export const PhoneNumberSignIn = async (
 	return await signInWithPhoneNumber(auth, phoneNumber, appVerifier);
 };
 
-
 export const signInWithGooglePopup = () =>
 	signInWithPopup(auth, googleProvider);
 
@@ -131,14 +130,15 @@ export const getBookedDates = async () => {
 	const collectionRef = collection(db, "users");
 	const q = query(collectionRef);
 	const querySnapshot = await getDocs(q);
-
-	const dates: string[] = querySnapshot.docs.reduce((acc, docSnapshot) => {
-
+	if (querySnapshot.docs.length > 1) {
+		const dates: string[] = querySnapshot.docs.reduce((acc, docSnapshot) => {
 			acc.push(...docSnapshot.data().booking.chosenDays);
-		return acc;
-	}, []);
-
-	return dates;
+			return acc;
+		}, []);
+		return dates;
+	} else {
+		return [];
+	}
 };
 // export const getCategoriesAndDocuments = async () => {
 // 	const collectionRef = collection(db, "categories");

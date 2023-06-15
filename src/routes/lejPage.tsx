@@ -25,7 +25,7 @@ import {
 	updateDocumentInfo,
 } from "../utils/firebase/firebase.utils";
 import { FirebaseError } from "firebase/app";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectAllUsers, selectCurrentUser } from "../store/user/user.selector";
 import { User } from "../utils/types/user.type";
 import {
@@ -41,6 +41,7 @@ import { HashLink } from "react-router-hash-link";
 import { useNavigate } from "react-router-dom";
 import "./lejPage.css";
 import { weekendslejepris } from "./homePage";
+import { setCurrentUser } from "../store/user/user.slice";
 // const client = require('twilio')(
 //   process.env.TWILIO_ACCOUNT_SID,
 //   process.env.TWILIO_AUTH_TOKEN
@@ -94,6 +95,7 @@ const Lej = () => {
 		daysInterval,
 		weekendsBetween,
 	} = dateData;
+	const dispatch = useDispatch();
 	const [inputPhoneNumber, setInputPhoneNumber] = useState("");
 	const [captchaState, setCaptchaState] = useState<RecaptchaVerifier | null>(
 		null
@@ -108,10 +110,18 @@ const Lej = () => {
 	const allUsers = useSelector(selectAllUsers);
 
 	const bookedDates = allUsers.reduce((acc, user) => {
-			acc.push(...user.booking.chosenDays);
-		
+		acc.push(...user.booking.chosenDays);
 		return acc;
 	}, []);
+
+	const setCurrentUserFromFirebase = async (user: User) => {
+		const res = await createSimpleUserDocumentFromAuth(user, { booking: null });
+		// getUserByUid(uid).then(({ createdAt, phoneNumber, booking }) => {
+		const { createdAt, phoneNumber, booking } = res;
+
+		dispatch(setCurrentUser({ createdAt, phoneNumber, booking }));
+		// })
+	};
 
 	const handleOpenPhoneDialog = () => {
 		setOpenPhoneDialog(true);
@@ -199,44 +209,37 @@ const Lej = () => {
 		setLoading(true);
 		if (confirmationObject) {
 			handleClosePhoneDialog("button");
+			try {
+				const response = await confirmationObject.confirm(input);
 
-			confirmationObject
-				.confirm(input)
-				.then((response) => {
-				
-					if (currentUser) {
-						getBookedDates()
-							.then((allBookedDates) => {
-								
-								
-								if (!arraysOverlap(allBookedDates, chosenDays)) {
-									updateDocumentInfo(
-										"users",
-										{
-											booking: { pris, daysInterval, chosenDays }
-										},
-										response.user.uid
-									).then((res) => navigate("../reciept"));
-								} else {
-									setError("De valgte datoer er ikke længere tilgængelige! ");
-									setLoading(false);
-								}
-							})
-							.catch((error) => {
-								setError(formatErrorMessage(error));
-								console.log(error);
+				setCurrentUserFromFirebase(response.user).then((res) => {
+					getBookedDates()
+						.then((allBookedDates) => {
+							if (!arraysOverlap(allBookedDates, chosenDays)) {
+								updateDocumentInfo(
+									"users",
+									{
+										booking: { pris, daysInterval, chosenDays },
+									},
+									response.user.uid
+								).then((res) => navigate("../reciept"));
+							} else {
+								setError("De valgte datoer er ikke længere tilgængelige! ");
 								setLoading(false);
-							});
-					} else {
-						console.log("BIG ERROR");
-					}
-				})
-				.catch((error) => {
-					setError("Forkerte kode!");
-					console.log(error);
-
-					setLoading(false);
+							}
+						})
+						.catch((error) => {
+							setError(formatErrorMessage(error));
+							console.log(error);
+							setLoading(false);
+						});
 				});
+			} catch (error) {
+				setError("Forkerte kode!");
+				console.log(error);
+
+				setLoading(false);
+			}
 
 			setInput("");
 		}
