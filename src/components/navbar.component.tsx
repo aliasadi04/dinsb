@@ -232,8 +232,8 @@ const Navbar = () => {
         <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
           <Typography fontWeight={700} variant='h4'>Kontakt</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >kontakt@dinsb.dk</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >+45 28 59 80 05</Typography>
-          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >+45 23 43 84 33</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >+45 00 00 00 00</Typography>
+          <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >+45 00 00 00 00</Typography>
 
         </Box>
 
