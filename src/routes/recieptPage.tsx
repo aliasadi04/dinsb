@@ -58,7 +58,7 @@ const RecieptPage = () => {
 			</Typography>
 
 			<Typography textAlign={"center"} mb={3} fontSize={{xs:20,md:25}}>
-				Soundboksen kan hentes ved Triumfvej 62B fra kl.9 til kl.22 dagen
+				Soundboksen kan hentes ved adressen fra kl.9 til kl.22 dagen
 				lejeperioden starter fra. Beløbet modtages via mobilepay inden aflevering af Soundboksen.
 			</Typography>
 			<Typography variant="h3" mb={1}>
