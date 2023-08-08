@@ -180,7 +180,7 @@ const Navbar = () => {
 
         <Button variant='contained'
           onClick={() => navigate("lej")}
-          sx={{ width: 200, borderWidth: 2, borderRadius: 2.5, height: 50 }}>
+          sx={{ width: 200, borderWidth: 2, borderRadius: 2.5, height: 50, ":hover":{backgroundColor:'#d16200'}}}>
           <Typography noWrap fontSize={{ xs: 16, md: 18 }} fontWeight={600} color='white'>
             Lej en soundboks
           </Typography>
