@@ -309,16 +309,13 @@ const Lej = () => {
 					alignItems: "center",
 					maxWidth: { xs: "70%", md: "40%" },
 					transition: "right 2s",
-					minWidth: "400px",
+					
 					textAlign: "center",
 				}}
 			>
-				<Typography variant="h2" fontWeight={600} my={3}>
-					Reserver en tid gratis og betal først ved afhentning!{" "}
-				</Typography>
 				{/* <Typography variant='h4' fontWeight={400} fontStyle='italic' my={3}>Skal afhentes ved Triumvej 62B, Bagsværd tidligst kl. 9 på startdagen </Typography> */}
-				<Typography variant="h4" fontWeight={600} sx={{ mb: 3 }}>
-					Vælg Udlejningsperiode
+				<Typography variant="h2" fontWeight={600} sx={{ mb: 3 }}>
+					Vælg startdato
 				</Typography>
 
 				<Box
@@ -329,15 +326,14 @@ const Lej = () => {
 						justifyContent: "space-between",
 					}}
 				>
-					<Typography variant="h4" sx={{ mx: 2 }}>
-						Fra
-					</Typography>
+					
 					<DatePicker
 						format="DD / MM / YY"
 						displayWeekNumber
 						shouldDisableDate={(date) =>
 							bookedDates.includes(date.format("MMM Do YY"))
 						}
+						views={["day","month"]}
 						label="start dato"
 						formatDensity="spacious"
 						disablePast
@@ -345,8 +341,11 @@ const Lej = () => {
 						onChange={(value) =>
 							onChangeDate({ name: "startDate", date: moment(value) })
 						}
+						sx={{borderRadius:"40px"}}
 					/>
-					<Typography variant="h4" sx={{ mx: 2 }}>
+					<Fade in={startDate!=null}>
+						<Box>
+					<Typography variant="h4" sx={{ mx: 2 ,my:2}}>
 						Til
 					</Typography>
 					<DatePicker
@@ -357,12 +356,14 @@ const Lej = () => {
 						}
 						label="slut dato"
 						formatDensity="spacious"
-						disablePast
+						disablePast 
 						value={endDate}
 						onChange={(value) =>
 							onChangeDate({ name: "endDate", date: moment(value) })
 						}
-					/>
+							/>
+							</Box>
+						</Fade>
 				</Box>
 
 				<Typography
@@ -382,7 +383,7 @@ const Lej = () => {
 									daysInterval > 1 ? "dage" : "dag"
 							  }`
 							: "slut dato kan ikke være før start dato!"
-						: "Vælg venligst en start og en slut dato"}
+						: ""}
 				</Typography>
 
 				<Typography

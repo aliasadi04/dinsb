@@ -174,7 +174,7 @@ const Navbar = () => {
       }} >
 
 
-        <Typography noWrap fontSize={{ xs: 15,sm:20, md: 40, lg: 60 }} fontWeight={900} sx={{}} >
+        <Typography noWrap fontSize={{ xs: 15,sm:20, md: 40, lg: 60 }} fontWeight={{xs:500,md:900}} sx={{pb:5}} >
           Brug for fed lyd til din næste fest?
         </Typography>
 
@@ -202,16 +202,16 @@ const Navbar = () => {
 
         pt: 15,
         pb: 10,
-
+        
         mb: 0,
         justifyContent: 'space-around',
-        px: '10%',
+        px: 10,
         boxSizing: 'border-box',
         flexWrap: 'wrap'
 
       }} >
 
-        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 200, my: 2 }}>
           <Typography fontWeight={700} variant='h4'>Sider</Typography>
 
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5, textDecoration: 'none', color: 'white' }} variant='h6' component='a' >Om os</Typography>
@@ -229,7 +229,7 @@ const Navbar = () => {
 
         </Box> */}
 
-        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 300, my: 2 }}>
+        <Box color='common.white' sx={{ display: 'flex', flexDirection: 'column', minWidth: 200, my: 2 }}>
           <Typography fontWeight={700} variant='h4'>Kontakt</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >kontakt@dinsb.dk</Typography>
           <Typography fontWeight={300} sx={{ cursor: 'pointer', my: 0.5 }} variant='h6' component='a' >+45 00 00 00 00</Typography>

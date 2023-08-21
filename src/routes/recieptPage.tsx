@@ -57,15 +57,12 @@ const RecieptPage = () => {
 				Tak fordi du valgte os!
 			</Typography>
 
-			<Typography textAlign={"center"} mb={3} fontSize={{xs:20,md:25}}>
-				Soundboksen kan hentes ved adressen fra kl.9 til kl.22 dagen
-				lejeperioden starter fra. Beløbet modtages via mobilepay inden aflevering af Soundboksen.
-			</Typography>
-			<Typography variant="h3" mb={1}>
-				Du har følgende reservation
+		
+			<Typography variant="h5" mb={1}>
+				Du har reserveret soundboksen følgende dage
 			</Typography>
 			<Typography>
-				{currentUser.booking.daysInterval}
+				{currentUser.booking.chosenDays.join(", ")}
 			</Typography>
 			{/* {currentUser && currentUser.booking && (
 				<>
@@ -104,6 +101,10 @@ const RecieptPage = () => {
 					</TableContainer>
 				</>
 			)} */}
+				<Typography textAlign={"center"} mb={3} fontSize={{xs:20,md:25}}>
+				Soundboksen kan hentes ved adressen fra kl.9 til kl.22 dagen
+				lejeperioden starter fra. Beløbet modtages via mobilepay inden aflevering af Soundboksen.
+			</Typography>
 			<Typography textAlign={"center"} fontStyle={"italic"} my={3} fontSize={{xs:15,md:23}}>
 				Passer prisen ikke? Vil du have levering? Kontakt os på +45 23 43 84 33,
 				så kan vi hjælpe dig hen ad vejen!
