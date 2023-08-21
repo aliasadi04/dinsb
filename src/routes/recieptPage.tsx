@@ -1,14 +1,14 @@
 import {
-	Box,
-	Button,
-	Paper,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Typography,
+  Box,
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -18,53 +18,70 @@ import { Booking } from "../utils/types/user.type";
 import { signOutUser } from "../utils/firebase/firebase.utils";
 
 const tableHeaderStyles = {
-	borderRight: "3px solid  white",
-	fontWeight: 700,
-	justifyContent: "center",
-	fontSize: { xs: 15, md: 20 },
-	color: "white",
-	textAlign: "center",
+  borderRight: "3px solid  white",
+  fontWeight: 700,
+  justifyContent: "center",
+  fontSize: { xs: 15, md: 20 },
+  color: "white",
+  textAlign: "center",
 };
 
 const tableCellStyle = {
-	border: "3px solid  white",
-	color: "white",
-	fontSize: { xs: 15, md: 20 },
-	textAlign: "center",
+  border: "3px solid  white",
+  color: "white",
+  fontSize: { xs: 15, md: 20 },
+  textAlign: "center",
 };
 
 const RecieptPage = () => {
-	const currentUser = useSelector(selectCurrentUser);
+  const currentUser = useSelector(selectCurrentUser);
 
+  return (
+    <Box
+      sx={{
+        px: 4,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        fontSize={40}
+        fontWeight={600}
+        mx={2}
+        my={4}
+        textAlign={"center"}
+      >
+        Tak fordi du valgte os!
+      </Typography>
 
-	return (
-		<Box
-			sx={{
-				px: 4,
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "center",
-				alignItems: "center",
-			}}
-		>
-			<Typography
-				variant="h2"
-				fontWeight={600}
-				mx={4}
-				my={4}
-				textAlign={"center"}
-			>
-				Tak fordi du valgte os!
-			</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: 10,
+				  border: "5px #131200 dashed",
+		  p:2,
+        }}
+      >
+        <Typography fontSize={25} mb={1} textAlign={"center"}>
+          Du har reserveret soundboksen følgende dage
+        </Typography>
+        <Typography fontSize={20} fontWeight={900}>
+          {currentUser.booking.chosenDays.join(", ")}
+			  </Typography>
 
-		
-			<Typography variant="h5" mb={1}>
-				Du har reserveret soundboksen følgende dage
-			</Typography>
-			<Typography>
-				{currentUser.booking.chosenDays.join(", ")}
-			</Typography>
-			{/* {currentUser && currentUser.booking && (
+			  <Typography fontSize={20} mb={1} textAlign={"center"}>
+          til en samlet pris på
+        </Typography>
+        <Typography fontSize={20} fontWeight={900}>
+          {currentUser.booking.pris} kr.
+			  </Typography>
+			  
+      </Box>
+      {/* {currentUser && currentUser.booking && (
 				<>
 					<TableContainer component={Paper} sx={{ maxWidth: 1000 }}>
 						<Table
@@ -101,17 +118,19 @@ const RecieptPage = () => {
 					</TableContainer>
 				</>
 			)} */}
-				<Typography textAlign={"center"} mb={3} fontSize={{xs:20,md:25}}>
-				Soundboksen kan hentes ved adressen fra kl.9 til kl.22 dagen
-				lejeperioden starter fra. Beløbet modtages via mobilepay inden aflevering af Soundboksen.
-			</Typography>
-			<Typography textAlign={"center"} fontStyle={"italic"} my={3} fontSize={{xs:15,md:23}}>
-				Passer prisen ikke? Vil du have levering? Kontakt os på +45 23 43 84 33,
-				så kan vi hjælpe dig hen ad vejen!
-			</Typography>
-			<Button onClick={()=>signOutUser()}>logout</Button>
-		</Box>
-	);
+    
+      <Typography
+        textAlign={"center"}
+        fontStyle={"italic"}
+        my={3}
+        fontSize={{ xs: 15, md: 23 }}
+      >
+        Passer prisen ikke? Vil du have levering? Kontakt os på +45 23 43 84 33,
+        så kan vi hjælpe dig hen ad vejen!
+      </Typography>
+      <Button onClick={() => signOutUser()}>logout</Button>
+    </Box>
+  );
 };
 
 export default RecieptPage;
